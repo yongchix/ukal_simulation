@@ -1,0 +1,31 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/src",
+                    "${workspaceFolder}/include",
+                    "/home/yongchi/ROOT/root_build_620/include",
+                    "/home/yongchi/data/research/GEANT4_10_06/install/include",
+                    "/home/yongchi/data/research/GEANT4_10_06/install/include/Geant4",
+                    "/home/yongchi/data/research/CLHEP/install/include"
+                ]
+            },
+            "includePath": [
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/include",
+                "/home/yongchi/ROOT/root_build_620/include",
+                "/home/yongchi/data/research/GEANT4_10_06/install/include",
+                "/home/yongchi/data/research/GEANT4_10_06/install/include/Geant4",
+				"/home/yongchi/data/research/CLHEP/install/include"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}
