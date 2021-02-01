@@ -69,9 +69,6 @@ B2aDetectorConstruction::B2aDetectorConstruction()
 {
 	fMessenger = new B2aDetectorMessenger(this);
 
-	// // by Yongchi 
-	// managerUKALMaterial = new UKALMaterial(); 
-
 	fNbOfChambers = 5;
 	fLogicChamber = new G4LogicalVolume*[fNbOfChambers];
 }
@@ -101,6 +98,8 @@ G4VPhysicalVolume* B2aDetectorConstruction::Construct()
 void B2aDetectorConstruction::DefineMaterials()
 {
 	// Material definition 
+	// by Yongchi 
+	managerUKALMaterial = new UKALMaterial(); 
 
 	G4NistManager* nistManager = G4NistManager::Instance();
 

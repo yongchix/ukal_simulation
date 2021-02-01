@@ -17,8 +17,6 @@ public:
 
 private: 
     // by Yongchi - for UKAL
-    G4Element *elementGe; 
-
     G4Isotope *isotopeXe136; 
     G4Element *elementXe136; 
 

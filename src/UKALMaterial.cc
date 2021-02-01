@@ -13,7 +13,6 @@ using namespace std;
 UKALMaterial::UKALMaterial() {
     G4NistManager* man = G4NistManager::Instance();
 
-    elementGe = new G4Element("Germanium", "Ge",32.,   72.61*g/mole);
     Ge = new G4Material("Ge", 32., 72.61*g/mole, 5.325*g/cm3);
 
     isotopeXe136 = new G4Isotope("isotopeXe136", 54, 136); 
