@@ -1,6 +1,12 @@
 # Macro file for the initialization of example B2 
 # in interactive session
 #
+
+# ----- select physics list -----
+/UKAL_sim/phys/addPhysics LEND
+/UKAL_sim/phys/addPhysics Standard_EM
+
+
 # Set some default verbose
 /control/verbose 0
 #/control/saveHistory
@@ -17,6 +23,3 @@
 # Visualization setting
 /control/execute vis.mac
 
-# ----- select physics list -----
-#/UKAL_sim/phys/addPhysics LEND
-/UKAL_sim/phys/addPhysics Standard_EM

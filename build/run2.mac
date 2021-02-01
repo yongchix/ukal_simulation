@@ -4,5 +4,30 @@
 # % exampleB2[a,b] run2.mac
 #
 #/run/numberOfThreads 4
-/run/initialize
-/run/beamOn 1
+#/run/initialize
+
+
+
+# make the distribution of gamma-rays a cone
+/gps/ang/type iso
+/gps/ang/mintheta 179.5 deg
+/gps/ang/maxtheta 180 deg
+/gps/ang/minphi 0 deg
+/gps/ang/maxphi 360 deg
+/gps/position 0 0 1
+/gps/position 0 0 -2 m
+
+#/gps/particle ion
+#/gps/ion 28 58 0 0 # Z A Q E
+
+/gps/particle neutron
+/gps/energy 3.2 MeV
+
+
+
+
+
+
+
+
+/run/beamOn 100

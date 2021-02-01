@@ -131,13 +131,13 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
 	G4double chamberSpacing = 80*cm; // from chamber center to center!
 
 	G4double chamberWidth = 20.0*cm; // width of the chambers
-	G4double targetLength =  5.0*cm; // full length of Target
+	G4double targetLength =  10.0*cm; // full length of Target
   
 	G4double trackerLength = (fNbOfChambers+1)*chamberSpacing;
 
 	G4double worldLength = 1.2 * (2*targetLength + trackerLength);
 
-	G4double targetRadius  = 0.5*targetLength;   // Radius of Target
+	G4double targetRadius  = 1.0*targetLength;   // Radius of Target
 	targetLength = 0.5*targetLength;             // Half length of the Target  
 	G4double trackerSize   = 0.5*trackerLength;  // Half length of the Tracker
 
@@ -175,7 +175,7 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
 
 	// Target
   
-	G4ThreeVector positionTarget = G4ThreeVector(0,0,-(targetLength+trackerSize));
+	G4ThreeVector positionTarget = G4ThreeVector(0,0,-2*m); //(targetLength+trackerSize));
 
 	G4Tubs* targetS
 		= new G4Tubs("target",0.,targetRadius,targetLength,0.*deg,360.*deg);

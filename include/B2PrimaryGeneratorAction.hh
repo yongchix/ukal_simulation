@@ -31,6 +31,7 @@
 #define B2PrimaryGeneratorAction_h 1
 
 #include "G4VUserPrimaryGeneratorAction.hh"
+#include "G4GeneralParticleSource.hh"
 #include "globals.hh"
 
 class G4ParticleGun;
@@ -51,13 +52,16 @@ class B2PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 
     virtual void GeneratePrimaries(G4Event* );
 
-    G4ParticleGun* GetParticleGun() {return fParticleGun;}
+    // G4ParticleGun* GetParticleGun() {return fParticleGun;}
+    G4GeneralParticleSource* GetParticleGun() {return fParticleGun;}
   
     // Set methods
     void SetRandomFlag(G4bool );
 
   private:
-    G4ParticleGun*          fParticleGun; // G4 particle gun
+    // G4ParticleGun*          fParticleGun; // G4 particle gun
+    G4GeneralParticleSource *fParticleGun; 
+
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

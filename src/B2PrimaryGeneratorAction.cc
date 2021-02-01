@@ -48,15 +48,16 @@ B2PrimaryGeneratorAction::B2PrimaryGeneratorAction()
  : G4VUserPrimaryGeneratorAction()
 {
   G4int nofParticles = 1;
-  fParticleGun = new G4ParticleGun(nofParticles);
+  // fParticleGun = new G4ParticleGun(nofParticles);
+  fParticleGun = new G4GeneralParticleSource(); 
 
-  // default particle kinematic
-  G4ParticleDefinition* particleDefinition 
-    = G4ParticleTable::GetParticleTable()->FindParticle("neutron");
+  // // default particle kinematic
+  // G4ParticleDefinition* particleDefinition 
+  //   = G4ParticleTable::GetParticleTable()->FindParticle("neutron");
 
-  fParticleGun->SetParticleDefinition(particleDefinition);
-  fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
-  fParticleGun->SetParticleEnergy(3.0*MeV);
+  // fParticleGun->SetParticleDefinition(particleDefinition);
+  // fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
+  // fParticleGun->SetParticleEnergy(3.0*MeV);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -90,7 +91,7 @@ void B2PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   // Note that this particular case of starting a primary particle on the world boundary
   // requires shooting in a direction towards inside the world.
-  fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., -worldZHalfLength));
+  // fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., -worldZHalfLength));
 
   fParticleGun->GeneratePrimaryVertex(anEvent);
 
