@@ -45,7 +45,9 @@
 #include "G4VisExecutive.hh"
 #include "G4UIExecutive.hh"
 
+// added for UKAL
 #include "UKALAnalysisManager.hh"
+#include "UKALPhysicsList.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -73,9 +75,12 @@ int main(int argc,char** argv)
   //
   runManager->SetUserInitialization(new B2aDetectorConstruction());
 
-  G4VModularPhysicsList* physicsList = new FTFP_BERT;
-  physicsList->RegisterPhysics(new G4StepLimiterPhysics());
-  runManager->SetUserInitialization(physicsList);
+  // G4VModularPhysicsList* physicsList = new FTFP_BERT;
+  // physicsList->RegisterPhysics(new G4StepLimiterPhysics());
+  // runManager->SetUserInitialization(physicsList);
+  // by Yongchi: add physics list
+  runManager->SetUserInitialization(new UKALPhysicsList()); 
+
 
 //by Yongchi, the AnalysisManager is needed!
 //#ifdef ANALYSIS_USE
@@ -108,7 +113,7 @@ int main(int argc,char** argv)
   else { 
     // interactive mode
     UImanager->ApplyCommand("/control/execute init_vis.mac");
-    UImanager->ApplyCommand("/control/execute run1.mac");
+    UImanager->ApplyCommand("/control/execute run2.mac");
     if (ui->IsGUI()) {
       UImanager->ApplyCommand("/control/execute gui.mac");
     }
