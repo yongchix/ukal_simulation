@@ -42,16 +42,20 @@ class G4GlobalMagFieldMessenger;
 
 class B2aDetectorMessenger;
 
+class UKALMaterial; 
+#include "G4Tubs.hh"
+#include "G4ThreeVector.hh"
+
 /// Detector construction class to define materials, geometry
 /// and global uniform magnetic field.
 
 class B2aDetectorConstruction : public G4VUserDetectorConstruction
 {
-  public:
+public:
     B2aDetectorConstruction();
     virtual ~B2aDetectorConstruction();
 
-  public:
+public:
     virtual G4VPhysicalVolume* Construct();
     virtual void ConstructSDandField();
 
@@ -61,7 +65,7 @@ class B2aDetectorConstruction : public G4VUserDetectorConstruction
     void SetMaxStep (G4double );
     void SetCheckOverlaps(G4bool );
 
-  private:
+private:
     // methods
     void DefineMaterials();
     G4VPhysicalVolume* DefineVolumes();
@@ -75,12 +79,33 @@ class B2aDetectorConstruction : public G4VUserDetectorConstruction
     G4Material*        fTargetMaterial;  // pointer to the target  material
     G4Material*        fChamberMaterial; // pointer to the chamber material
 
+    //------------------------------------------------------------------------
+    // by Yongchi 
+    G4Material *sampleMater; 
+    G4Material *hpgeMater; 
+    // by Yongchi - for UKAL
+    UKALMaterial *managerUKALMaterial; 
+    // G4Tubs *solidUKALSample; 
+    // G4LogicalVolume *logicUKALSample; 
+    // G4VPhysicalVolume *physiUKALSample; 
+    // G4double fUKALSample_zpos; 
+    // G4ThreeVector fUKALSamplePos;
+    // // by Yongchi - add the hpge detector
+    // G4Tubs *solidUKALHPGe; 
+    // G4LogicalVolume *logicUKALHPGe; 
+    // G4VPhysicalVolume *physiUKALHPGe; 
+    // G4double fUKALHPGe_zpos; 
+    // G4ThreeVector fUKALHPGePos;    
+    // //------------------------------------------------------------------------
+    
+
+
     G4UserLimits* fStepLimit;            // pointer to user step limits
 
     B2aDetectorMessenger*  fMessenger;   // messenger
 
     static G4ThreadLocal G4GlobalMagFieldMessenger*  fMagFieldMessenger; 
-                                         // magnetic field messenger
+	// magnetic field messenger
     
     G4bool  fCheckOverlaps; // option to activate checking of volumes overlaps 
 };
