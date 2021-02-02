@@ -94,11 +94,11 @@ B2aDetectorMessenger::~B2aDetectorMessenger()
 
 void B2aDetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 {
-	if( command == fTargMatCmd )
-		{ fDetectorConstruction->SetTargetMaterial(newValue);}
+	// if( command == fTargMatCmd )
+	// 	{ fDetectorConstruction->SetTargetMaterial(newValue);}
 
-	if( command == fChamMatCmd )
-		{ fDetectorConstruction->SetChamberMaterial(newValue);}
+	// if( command == fChamMatCmd )
+	// 	{ fDetectorConstruction->SetChamberMaterial(newValue);}
 
 	if( command == fStepMaxCmd ) {
 		fDetectorConstruction

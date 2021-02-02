@@ -6,8 +6,9 @@
 /UKAL_sim/phys/addPhysics LEND
 /UKAL_sim/phys/addPhysics Standard_EM
 
-/UKAL_sim/det/UseUKALSample false
-/UKAL_sim/det/UseUKALHPGe false
+# ----- select detectors to use -----
+/UKAL_sim/det/UseUKALSample true
+/UKAL_sim/det/UseUKALHPGe true
 
 
 
@@ -17,13 +18,13 @@
 /run/verbose 0
 /event/verbose 0
 /tracking/verbose 0
-#
+
 # Change the default number of threads (in multi-threaded mode)
 /run/numberOfThreads 4
-#
+
 # Initialize kernel
 /run/initialize
-#
+
 # Visualization setting
 /control/execute vis.mac
 

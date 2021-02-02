@@ -66,7 +66,7 @@ void B2EventAction::EndOfEventAction(const G4Event* event)
 
 	// by Yongchi - for output 
 	//G4double energySum = 0; 
-	G4int trackerID = G4SDManager::GetSDMpointer()->GetCollectionID("TrackerHitsCollection"); 
+	// G4int trackerID = G4SDManager::GetSDMpointer()->GetCollectionID("TrackerHitsCollection"); 
 	// do the same thing for other detector (sensitive, of course) 
 	// note that the name in the double quote above should match what is in DetectorConstruction
 
@@ -89,23 +89,29 @@ void B2EventAction::EndOfEventAction(const G4Event* event)
 	// }
 
 
+	G4int sampleID = G4SDManager::GetSDMpointer()->GetCollectionID("ukalSampleHitsCollection");  
+	G4int hpgeID = G4SDManager::GetSDMpointer()->GetCollectionID("ukalHPGeHitsCollection"); 
+
+
 	G4HCofThisEvent *HCE = event->GetHCofThisEvent(); 
-	B2TrackerHitsCollection *DHTracker = 0; 
+	// B2TrackerHitsCollection *DHTracker = 0; 
 	B2TrackerHitsCollection *DHCHPGe = 0; 
 	B2TrackerHitsCollection *DHCSample = 0; 
 	B2TrackerHitsCollection *DHCBGO = 0; 
 
 	if(HCE) {
-		DHTracker = (B2TrackerHitsCollection*)HCE->GetHC(trackerID); 
+		// DHTracker = (B2TrackerHitsCollection*)HCE->GetHC(trackerID); 
+		DHCSample = (B2TrackerHitsCollection*)HCE->GetHC(sampleID); 
+		DHCHPGe = (B2TrackerHitsCollection*)HCE->GetHC(hpgeID); 
 	}
 
-	if(DHTracker) {
-		int nHits = DHTracker->entries(); 
-		for(int i = 0; i < nHits; i++) {
-			G4String particleName = (*DHTracker)[i]->GetParticlename(); // check definition of hits
-			// G4cout << "Found a hit, name = " << particleName.c_str() << G4endl; 
-		}
-	}
+	// if(DHTracker) {
+	// 	int nHits = DHTracker->entries(); 
+	// 	for(int i = 0; i < nHits; i++) {
+	// 		G4String particleName = (*DHTracker)[i]->GetParticlename(); // check definition of hits
+	// 		// G4cout << "Found a hit, name = " << particleName.c_str() << G4endl; 
+	// 	}
+	// }
 
 
 

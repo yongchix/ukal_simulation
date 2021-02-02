@@ -60,17 +60,16 @@ public:
     virtual void ConstructSDandField();
 
     // Set methods
-    void SetTargetMaterial (G4String );
-    void SetChamberMaterial(G4String );
+    // void SetTargetMaterial (G4String );
+    // void SetChamberMaterial(G4String );
     void SetMaxStep (G4double );
     void SetCheckOverlaps(G4bool );
 
-private: 
+private:     // by Yongchi - for UKAL
     G4bool fUseUKALSample; 
     G4bool fUseUKALHPGe; 
     G4bool fUseUKALBGO; 
-public: 
-    // by Yongchi - for UKAL
+public:     // by Yongchi - for UKAL
     void SetUseUKALSample(G4bool value) {fUseUKALSample = value; }
     void SetUseUKALHPGe(G4bool value) {fUseUKALHPGe = value; }
 
@@ -99,13 +98,13 @@ private:
     G4VPhysicalVolume *physiUKALSample; 
     G4double fUKALSample_zpos; 
     G4ThreeVector fUKALSamplePos;
-    // // by Yongchi - add the hpge detector
-    // G4Tubs *solidUKALHPGe; 
-    // G4LogicalVolume *logicUKALHPGe; 
-    // G4VPhysicalVolume *physiUKALHPGe; 
-    // G4double fUKALHPGe_zpos; 
-    // G4ThreeVector fUKALHPGePos;    
-    // //------------------------------------------------------------------------
+    // by Yongchi - add the hpge detector
+    G4Tubs *solidUKALHPGe; 
+    G4LogicalVolume *logicUKALHPGe; 
+    G4VPhysicalVolume *physiUKALHPGe; 
+    G4double fUKALHPGe_zpos; 
+    G4ThreeVector fUKALHPGePos;    
+    //------------------------------------------------------------------------
     
 
 

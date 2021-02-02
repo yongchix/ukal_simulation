@@ -38,7 +38,7 @@ B2RunAction::B2RunAction()
  : G4UserRunAction()
 { 
   // set printing event number per each 100 events
-  G4RunManager::GetRunManager()->SetPrintProgress(1000);     
+  G4RunManager::GetRunManager()->SetPrintProgress(20000);     
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

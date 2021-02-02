@@ -16,7 +16,7 @@
 /gps/ang/minphi 0 deg
 /gps/ang/maxphi 360 deg
 /gps/position 0 0 1
-/gps/position 0 0 -2 m
+/gps/position 0 0 -10 cm
 
 #/gps/particle ion
 #/gps/ion 28 58 0 0 # Z A Q E
@@ -25,4 +25,4 @@
 /gps/energy 3.2 MeV
 
 
-/run/beamOn 1
+/run/beamOn 1000000
