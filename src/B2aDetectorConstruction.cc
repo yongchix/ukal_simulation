@@ -54,6 +54,7 @@
 
 #include "UKALMaterial.hh"
 
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
  
 G4ThreadLocal 
@@ -143,7 +144,7 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
 
 	// Definitions of Solids, Logical Volumes, Physical Volumes
 
-	// World
+	// --------- World ---------
 
 	G4GeometryManager::GetInstance()->SetWorldMaximumExtent(worldLength);
 
@@ -173,7 +174,9 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
 							0,               // copy number
 							fCheckOverlaps); // checking overlaps 
 
-	// Target
+
+
+	// --------- Target ---------
   
 	G4ThreeVector positionTarget = G4ThreeVector(0,0,-2*m); //(targetLength+trackerSize));
 
@@ -193,7 +196,9 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
 	G4cout << "Target is " << 2*targetLength/cm << " cm of "
 		   << fTargetMaterial->GetName() << G4endl;
 
-	// Tracker
+
+
+	// --------- Tracker ---------
  
 	G4ThreeVector positionTracker = G4ThreeVector(0,0,0);
 
@@ -212,6 +217,41 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
 					  false,           // no boolean operations
 					  0,               // copy number
 					  fCheckOverlaps); // checking overlaps 
+
+
+	// for UKAL
+	// --------- Scattering Sample ---------
+	G4double sampleRadius = 9*mm; 
+	G4double sampleDz     = 21*mm; 
+	// solid
+	solidUKALSample = new G4Tubs("solidUKALSample", 0, sampleRadius, sampleDz, 0, 360*degree); 
+	// logical 
+	logicUKALSample = new G4LogicalVolume(solidUKALSample, 
+										  sampleMater, 
+										  //SegaMater, 
+										  "logicUKALSample"); 
+	// physical
+	// placement, see below CeBr3 for refernece, use a G4ThreeVector for xyz position as a whole
+	fUKALSample_zpos = -0.5*sampleDz; 
+	fUKALSamplePos = G4ThreeVector(0, 0); 
+	G4RotationMatrix *rotateUKALSample = new G4RotationMatrix(); 
+	rotateUKALSample->rotateX(90.*degree); 
+	if(fUseUKALSample) {
+		physiUKALSample = new G4PVPlacement(rotateUKALSample, 
+											fUKALSamplePos, 
+											logicUKALSample, "UKALSample", 
+											worldLV, 
+											false, 0, true); 
+	}
+
+
+
+
+
+
+
+
+
 
 	// Visualization attributes
 
@@ -311,6 +351,12 @@ void B2aDetectorConstruction::ConstructSDandField()
 	// Setting aTrackerSD to all logical volumes with the same name 
 	// of "Chamber_LV".
 	SetSensitiveDetector("Chamber_LV", aTrackerSD, true);
+
+
+	// by Yongchi - do the same thing as above for 
+	// scattering samples and hpge detectors
+
+
 
 
 

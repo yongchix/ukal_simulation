@@ -6,6 +6,10 @@
 /UKAL_sim/phys/addPhysics LEND
 /UKAL_sim/phys/addPhysics Standard_EM
 
+/UKAL_sim/det/UseUKALSample false
+/UKAL_sim/det/UseUKALHPGe false
+
+
 
 # Set some default verbose
 /control/verbose 0

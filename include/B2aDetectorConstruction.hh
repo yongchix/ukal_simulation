@@ -65,6 +65,15 @@ public:
     void SetMaxStep (G4double );
     void SetCheckOverlaps(G4bool );
 
+private: 
+    G4bool fUseUKALSample; 
+    G4bool fUseUKALHPGe; 
+    G4bool fUseUKALBGO; 
+public: 
+    // by Yongchi - for UKAL
+    void SetUseUKALSample(G4bool value) {fUseUKALSample = value; }
+    void SetUseUKALHPGe(G4bool value) {fUseUKALHPGe = value; }
+
 private:
     // methods
     void DefineMaterials();
@@ -85,11 +94,11 @@ private:
     G4Material *hpgeMater; 
     // by Yongchi - for UKAL
     UKALMaterial *managerUKALMaterial; 
-    // G4Tubs *solidUKALSample; 
-    // G4LogicalVolume *logicUKALSample; 
-    // G4VPhysicalVolume *physiUKALSample; 
-    // G4double fUKALSample_zpos; 
-    // G4ThreeVector fUKALSamplePos;
+    G4Tubs *solidUKALSample; 
+    G4LogicalVolume *logicUKALSample; 
+    G4VPhysicalVolume *physiUKALSample; 
+    G4double fUKALSample_zpos; 
+    G4ThreeVector fUKALSamplePos;
     // // by Yongchi - add the hpge detector
     // G4Tubs *solidUKALHPGe; 
     // G4LogicalVolume *logicUKALHPGe; 

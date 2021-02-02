@@ -37,6 +37,7 @@ class B2aDetectorConstruction;
 class G4UIdirectory;
 class G4UIcmdWithAString;
 class G4UIcmdWithADoubleAndUnit;
+class G4UIcmdWithABool; 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -49,13 +50,13 @@ class G4UIcmdWithADoubleAndUnit;
 
 class B2aDetectorMessenger: public G4UImessenger
 {
-  public:
+public:
     B2aDetectorMessenger(B2aDetectorConstruction* );
     virtual ~B2aDetectorMessenger();
     
     virtual void SetNewValue(G4UIcommand*, G4String);
     
-  private:
+private:
     B2aDetectorConstruction*  fDetectorConstruction;
 
     G4UIdirectory*           fB2Directory;
@@ -65,6 +66,12 @@ class B2aDetectorMessenger: public G4UImessenger
     G4UIcmdWithAString*      fChamMatCmd;
 
     G4UIcmdWithADoubleAndUnit* fStepMaxCmd;
+
+    // by Yongchi - for UKAL
+    // add or remove detectors
+    G4UIcmdWithABool*          useUKALSampleCmd; 
+    G4UIcmdWithABool*          useUKALHPGeCmd; 
+    G4UIcmdWithABool*          useUKALBGOCmd;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
