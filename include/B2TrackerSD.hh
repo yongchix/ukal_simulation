@@ -49,7 +49,7 @@ class G4HCofThisEvent;
 
 class B2TrackerSD : public G4VSensitiveDetector
 {
-  public:
+public:
     B2TrackerSD(const G4String& name, 
                 const G4String& hitsCollectionName);
     virtual ~B2TrackerSD();
@@ -58,9 +58,15 @@ class B2TrackerSD : public G4VSensitiveDetector
     virtual void   Initialize(G4HCofThisEvent* hitCollection);
     virtual G4bool ProcessHits(G4Step* step, G4TouchableHistory* history);
     virtual void   EndOfEvent(G4HCofThisEvent* hitCollection);
+    //
+    // void clear(); 
+    // void DrawAll(); 
+    // void PrintAll(); 
 
-  private:
+private:
     B2TrackerHitsCollection* fHitsCollection;
+    // by Yongchi - refer to e16032 simulation
+    G4int HCID; 
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

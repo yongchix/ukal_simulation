@@ -78,21 +78,57 @@ G4bool B2TrackerSD::ProcessHits(G4Step* aStep,
 
 	if (edep==0.) return false;
 
-	B2TrackerHit* newHit = new B2TrackerHit();
-
-	newHit->SetTrackID  (aStep->GetTrack()->GetTrackID());
-	newHit->SetChamberNb(aStep->GetPreStepPoint()->GetTouchableHandle()
+	// get this hit
+	B2TrackerHit* aHit = new B2TrackerHit();
+	// process this hit
+	aHit->SetTrackID  (aStep->GetTrack()->GetTrackID());
+	aHit->SetChamberNb(aStep->GetPreStepPoint()->GetTouchableHandle()
 						 ->GetCopyNumber());
-	newHit->SetEdep(edep);
-	newHit->SetPos (aStep->GetPostStepPoint()->GetPosition());
+	aHit->SetEdep(edep);
+	aHit->SetPos (aStep->GetPostStepPoint()->GetPosition());
+	// by Yongchi - process this hit for more information - refer to e16032 simulation
+	G4double gt = aStep->GetPreStepPoint()->GetGlobalTime();
+	aHit->SetGtime( gt );
+	G4int st = aStep->GetTrack()->GetCurrentStepNumber();
+	aHit->SetStepno( st );
+	G4int tr = aStep->GetTrack()->GetTrackID();
+	aHit->SetTrackno( tr );
+	G4double ke = aStep->GetTrack()->GetKineticEnergy();
+	aHit->SetKineticEnergy(ke);
+	G4int pa = aStep->GetTrack()->GetParentID();
+	aHit->SetParentno( pa );
+	G4String ty = aStep->GetTrack()->GetDefinition()->GetParticleType();
+	aHit->SetParticletype( ty );
+	G4String nam = aStep->GetTrack()->GetDefinition()->GetParticleName();
+	aHit->SetParticlename( nam );
 
-	fHitsCollection->insert( newHit );
+	G4String volname = aStep->GetTrack()->GetVolume()->GetName();
+	aHit->SetVolName( volname );
 
-	//newHit->Print();
+	G4ThreeVector pre = aStep->GetPreStepPoint()->GetPosition();
+	aHit->SetPrePosition( pre );
+	G4ThreeVector post =aStep->GetPostStepPoint()->GetPosition();
+	aHit->SetPostPosition( post );
+	G4ThreeVector del = aStep->GetDeltaPosition();
+	aHit->SetDeltaPosition( del );
 
-	// by Yongchi - for info output
-	UKALAnalysisManager *analysis = UKALAnalysisManager::GetInstance(); 
-	analysis->FillTH1D(edep/keV); 
+	G4double dlen = aStep->GetStepLength();
+	aHit->SetDeltaLength( dlen );
+    
+	G4double slen = aStep->GetStepLength();
+	aHit->SetStepLength( slen );
+
+	aHit->SetEdep(edep); 
+
+
+	// processing is done
+	fHitsCollection->insert( aHit );
+
+	//aHit->Print();
+
+	// // by Yongchi - for info output
+	// UKALAnalysisManager *analysis = UKALAnalysisManager::GetInstance(); 
+	// analysis->FillTH1D(edep/keV); 
 
 	// G4cout << edep/keV << " keV" << G4endl; 
 

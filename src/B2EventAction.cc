@@ -102,7 +102,8 @@ void B2EventAction::EndOfEventAction(const G4Event* event)
 	if(DHTracker) {
 		int nHits = DHTracker->entries(); 
 		for(int i = 0; i < nHits; i++) {
-			// G4String particleName = (*DHTracker)[i]->GetParticleName(); // check definition of hits
+			G4String particleName = (*DHTracker)[i]->GetParticlename(); // check definition of hits
+			// G4cout << "Found a hit, name = " << particleName.c_str() << G4endl; 
 		}
 	}
 
