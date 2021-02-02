@@ -200,7 +200,10 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
 	G4Tubs* trackerS
 		= new G4Tubs("tracker",0,trackerSize,trackerSize, 0.*deg, 360.*deg);
 	G4LogicalVolume* trackerLV
-		= new G4LogicalVolume(trackerS, air, "Tracker",0,0,0);  
+		= new G4LogicalVolume(trackerS, 
+							  //air, 
+							  hpgeMater, // fill trackers with Ge
+							  "Tracker",0,0,0);  
 	new G4PVPlacement(0,               // no rotation
 					  positionTracker, // at (x,y,z)
 					  trackerLV,       // its logical volume
@@ -254,7 +257,9 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
 			= new G4Tubs("Chamber_solid", 0, rmax, halfWidth, 0.*deg, 360.*deg);
 
 		fLogicChamber[copyNo] =
-			new G4LogicalVolume(chamberS,fChamberMaterial,"Chamber_LV",0,0,0);
+			new G4LogicalVolume(chamberS,
+							    fChamberMaterial,
+								"Chamber_LV",0,0,0);
 
 		fLogicChamber[copyNo]->SetVisAttributes(chamberVisAtt);
 
@@ -306,6 +311,11 @@ void B2aDetectorConstruction::ConstructSDandField()
 	// Setting aTrackerSD to all logical volumes with the same name 
 	// of "Chamber_LV".
 	SetSensitiveDetector("Chamber_LV", aTrackerSD, true);
+
+
+
+
+
 
 	// Create global magnetic field messenger.
 	// Uniform magnetic field is then created automatically if

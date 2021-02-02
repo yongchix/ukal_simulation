@@ -44,7 +44,7 @@
 
 class B2TrackerHit : public G4VHit
 {
-  public:
+public:
     B2TrackerHit();
     B2TrackerHit(const B2TrackerHit&);
     virtual ~B2TrackerHit();
@@ -72,12 +72,17 @@ class B2TrackerHit : public G4VHit
     G4double GetEdep() const     { return fEdep; };
     G4ThreeVector GetPos() const { return fPos; };
 
-  private:
+private:
 
-      G4int         fTrackID;
-      G4int         fChamberNb;
-      G4double      fEdep;
-      G4ThreeVector fPos;
+	G4int         fTrackID;
+	G4int         fChamberNb;
+	G4double      fEdep;
+	G4ThreeVector fPos;
+
+private: 
+    // by Yongchi - for UKAL
+    
+
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -90,16 +95,16 @@ extern G4ThreadLocal G4Allocator<B2TrackerHit>* B2TrackerHitAllocator;
 
 inline void* B2TrackerHit::operator new(size_t)
 {
-  if(!B2TrackerHitAllocator)
-      B2TrackerHitAllocator = new G4Allocator<B2TrackerHit>;
-  return (void *) B2TrackerHitAllocator->MallocSingle();
+	if(!B2TrackerHitAllocator)
+		B2TrackerHitAllocator = new G4Allocator<B2TrackerHit>;
+	return (void *) B2TrackerHitAllocator->MallocSingle();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 inline void B2TrackerHit::operator delete(void *hit)
 {
-  B2TrackerHitAllocator->FreeSingle((B2TrackerHit*) hit);
+	B2TrackerHitAllocator->FreeSingle((B2TrackerHit*) hit);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

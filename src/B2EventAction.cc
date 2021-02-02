@@ -34,11 +34,14 @@
 #include "G4TrajectoryContainer.hh"
 #include "G4Trajectory.hh"
 #include "G4ios.hh"
+#include "G4SDManager.hh"
+
+#include "B2TrackerHit.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 B2EventAction::B2EventAction()
-: G4UserEventAction()
+	: G4UserEventAction()
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -55,32 +58,57 @@ void B2EventAction::BeginOfEventAction(const G4Event*)
 
 void B2EventAction::EndOfEventAction(const G4Event* event)
 {
-  // get number of stored trajectories
+	// get number of stored trajectories
 
-  G4TrajectoryContainer* trajectoryContainer = event->GetTrajectoryContainer();
-  G4int n_trajectories = 0;
-  if (trajectoryContainer) n_trajectories = trajectoryContainer->entries();
+	G4TrajectoryContainer* trajectoryContainer = event->GetTrajectoryContainer();
+	G4int n_trajectories = 0;
+	if (trajectoryContainer) n_trajectories = trajectoryContainer->entries();
 
-  // by Yongchi - for output 
-  G4double energySum = 0; 
+	// by Yongchi - for output 
+	//G4double energySum = 0; 
+	G4int trackerID = G4SDManager::GetSDMpointer()->GetCollectionID("TrackerHitsCollection"); 
+	// do the same thing for other detector (sensitive, of course) 
+	// note that the name in the double quote above should match what is in DetectorConstruction
 
-  // periodic printing
-  G4int eventID = event->GetEventID();
-  if ( eventID < 100 || eventID % 100 == 0) {
-    // G4cout << ">>> Event: " << eventID  << G4endl;
 
-    // if ( trajectoryContainer ) {
-    //   G4cout << "    " << n_trajectories
-    //          << " trajectories stored in this event." << G4endl;
-    // }
+	// // periodic printing
+	// G4int eventID = event->GetEventID();
+	// if ( eventID < 100 || eventID % 100 == 0) {
+	// 	// G4cout << ">>> Event: " << eventID  << G4endl;
 
-    G4VHitsCollection* hc = event->GetHCofThisEvent()->GetHC(0);
+	// 	// if ( trajectoryContainer ) {
+	// 	//   G4cout << "    " << n_trajectories
+	// 	//          << " trajectories stored in this event." << G4endl;
+	// 	// }
 
-    if(hc->GetSize() > 0)
-    G4cout << "    "  
-           << hc->GetSize() << " hits stored in this event" << G4endl;
-    
-  }
+	// 	// G4VHitsCollection* hc = event->GetHCofThisEvent()->GetHC(0);
+
+	// 	// if(hc->GetSize() > 0)
+	// 	// 	G4cout << "    "  
+	// 	// 		   << hc->GetSize() << " hits stored in this event" << G4endl;    
+	// }
+
+
+	G4HCofThisEvent *HCE = event->GetHCofThisEvent(); 
+	B2TrackerHitsCollection *DHTracker = 0; 
+	B2TrackerHitsCollection *DHCHPGe = 0; 
+	B2TrackerHitsCollection *DHCSample = 0; 
+	B2TrackerHitsCollection *DHCBGO = 0; 
+
+	if(HCE) {
+		DHTracker = (B2TrackerHitsCollection*)HCE->GetHC(trackerID); 
+	}
+
+	if(DHTracker) {
+		int nHits = DHTracker->entries(); 
+		for(int i = 0; i < nHits; i++) {
+			// G4String particleName = (*DHTracker)[i]->GetParticleName(); // check definition of hits
+		}
+	}
+
+
+
+
 }  
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -94,8 +94,7 @@ G4bool B2TrackerSD::ProcessHits(G4Step* aStep,
 	UKALAnalysisManager *analysis = UKALAnalysisManager::GetInstance(); 
 	analysis->FillTH1D(edep/keV); 
 
-	G4cout << edep/keV << " keV" << G4endl; 
-	// G4cout << "--- hahaha --- " << G4endl; 
+	// G4cout << edep/keV << " keV" << G4endl; 
 
 	return true;
 }
