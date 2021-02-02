@@ -95,8 +95,8 @@ void B2PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 
   fParticleGun->GeneratePrimaryVertex(anEvent);
 
-  UKALAnalysisManager *analysis = UKALAnalysisManager::GetInstance(); 
-  analysis->FillTH1D(512); 
+  // UKALAnalysisManager *analysis = UKALAnalysisManager::GetInstance(); 
+  // analysis->FillTH1D(512); 
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
