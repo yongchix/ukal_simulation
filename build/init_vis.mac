@@ -2,6 +2,10 @@
 # in interactive session
 #
 
+# ----- output control -----
+/UKAL/analysis/filename 100M
+/UKAL/analysis/dirname UKAL
+
 # ----- select physics list -----
 #/UKAL_sim/phys/addPhysics LEND
 /UKAL_sim/phys/addPhysics QGSP_BERT_HP
@@ -11,6 +15,7 @@
 # ----- select detectors to use -----
 /UKAL_sim/det/UseUKALSample true
 /UKAL_sim/det/UseUKALHPGe true
+
 
 
 
@@ -29,5 +34,5 @@
 
 # Visualization setting
 /control/execute vis.mac
-/control/execute run2.mac
+#/control/execute run2.mac
 

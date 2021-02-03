@@ -55,15 +55,15 @@ target_link_libraries(exampleB2a ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
 # build B2a. This is so that we can run the executable directly because it
 # relies on these scripts being in the current working directory.
 #
-set(EXAMPLEB2A_SCRIPTS
-  exampleB2a.out
-  exampleB2.in
-  gui.mac
-  run1.mac
-  run2.mac
-  init_vis.mac
-  vis.mac
-  )
+# set(EXAMPLEB2A_SCRIPTS
+#   exampleB2a.out
+#   exampleB2.in
+#   gui.mac
+#   run1.mac
+#   run2.mac
+#   init_vis.mac
+#   vis.mac
+#   )
 
 foreach(_script ${EXAMPLEB2A_SCRIPTS})
   configure_file(

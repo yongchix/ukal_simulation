@@ -8,9 +8,13 @@
 #include "TH1D.h"
 #include "TH2D.h"
 
+class UKALAnalysisMessenger; 
+
 class UKALAnalysisManager {
     private: // why private???
         UKALAnalysisManager(); 
+        UKALAnalysisMessenger *messenger; 
+
     public: 
         ~UKALAnalysisManager(); 
         static UKALAnalysisManager* GetInstance(); 
@@ -30,6 +34,13 @@ class UKALAnalysisManager {
         TH1D *h1Test; 
         TH1D *h1HPGe; 
         TH1D *h1Sample; 
+
+    public: 
+        void SetFilename(G4String name); 
+        void SetDirname(G4String name); 
+    private: 
+        G4String filename; 
+        G4String dirname; 
 }; 
 
 

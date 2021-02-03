@@ -53,83 +53,86 @@
 
 int main(int argc,char** argv)
 {
-  // Detect interactive mode (if no arguments) and define UI session
-  //
-  G4UIExecutive* ui = 0;
-  if ( argc == 1 ) {
-    ui = new G4UIExecutive(argc, argv);
-  }
+	// Detect interactive mode (if no arguments) and define UI session
+	//
+	G4UIExecutive* ui = 0;
+	if ( argc == 1 ) {
+		ui = new G4UIExecutive(argc, argv);
+	}
 
-  // Optionally: choose a different Random engine...
-  // G4Random::setTheEngine(new CLHEP::MTwistEngine);
+	// Optionally: choose a different Random engine...
+	// G4Random::setTheEngine(new CLHEP::MTwistEngine);
 
-  // Construct the default run manager
-  //
+	// Construct the default run manager
+	//
 #ifdef G4MULTITHREADED  
-  G4MTRunManager* runManager = new G4MTRunManager;
+	G4MTRunManager* runManager = new G4MTRunManager;
 #else
-  G4RunManager* runManager = new G4RunManager;
+	G4RunManager* runManager = new G4RunManager;
 #endif
 
-  // Set mandatory initialization classes
-  //
-  runManager->SetUserInitialization(new B2aDetectorConstruction());
+	// Set mandatory initialization classes
+	//
+	runManager->SetUserInitialization(new B2aDetectorConstruction());
 
-  // G4VModularPhysicsList* physicsList = new FTFP_BERT;
-  // physicsList->RegisterPhysics(new G4StepLimiterPhysics());
-  // runManager->SetUserInitialization(physicsList);
-  // by Yongchi: add physics list
-  runManager->SetUserInitialization(new UKALPhysicsList()); 
-
-
-//by Yongchi, the AnalysisManager is needed!
-//#ifdef ANALYSIS_USE
-  UKALAnalysisManager* analysis = UKALAnalysisManager::GetInstance();
-  analysis->book();
-//#endif
+	// G4VModularPhysicsList* physicsList = new FTFP_BERT;
+	// physicsList->RegisterPhysics(new G4StepLimiterPhysics());
+	// runManager->SetUserInitialization(physicsList);
+	// by Yongchi: add physics list
+	runManager->SetUserInitialization(new UKALPhysicsList()); 
 
 
-  // Set user action classes
-  runManager->SetUserInitialization(new B2ActionInitialization());
+	// //by Yongchi, the AnalysisManager is needed!
+	// //#ifdef ANALYSIS_USE
+	UKALAnalysisManager* analysis = UKALAnalysisManager::GetInstance();
+	analysis->book();
+	// UKALAnalysisManager* analysis = UKALAnalysisManager::GetInstance();
+	// analysis->book(); 
+	// //#endif
+
+
+	// Set user action classes
+	runManager->SetUserInitialization(new B2ActionInitialization());
   
-  // Initialize visualization
-  //
-  G4VisManager* visManager = new G4VisExecutive;
-  // G4VisExecutive can take a verbosity argument - see /vis/verbose guidance.
-  // G4VisManager* visManager = new G4VisExecutive("Quiet");
-  visManager->Initialize();
+	// Initialize visualization
+	//
+	G4VisManager* visManager = new G4VisExecutive;
+	// G4VisExecutive can take a verbosity argument - see /vis/verbose guidance.
+	// G4VisManager* visManager = new G4VisExecutive("Quiet");
+	visManager->Initialize();
 
-  // Get the pointer to the User Interface manager
-  G4UImanager* UImanager = G4UImanager::GetUIpointer();
+	// Get the pointer to the User Interface manager
+	G4UImanager* UImanager = G4UImanager::GetUIpointer();
 
-  // Process macro or start UI session
-  //
-  if ( ! ui ) { 
-    // batch mode
-    G4String command = "/control/execute ";
-    G4String fileName = argv[1];
-    UImanager->ApplyCommand(command+fileName);
-  }
-  else { 
-    // interactive mode
-    UImanager->ApplyCommand("/control/execute init_vis.mac");
-    // UImanager->ApplyCommand("/control/execute run2.mac");
-    if (ui->IsGUI()) {
-      UImanager->ApplyCommand("/control/execute gui.mac");
-    }
-    ui->SessionStart();
-    delete ui;
-  }
+	// Process macro or start UI session
+	//
+	if ( ! ui ) { 
+		// batch mode	
+		G4String command = "/control/execute ";
+		G4String fileName = argv[1];
+		UImanager->ApplyCommand(command+fileName);
+	}
+	else { 
+		// interactive mode
+		UImanager->ApplyCommand("/control/execute init_vis.mac");
+		// UImanager->ApplyCommand("/control/execute vis.mac"); 
+		UImanager->ApplyCommand("/control/execute run2.mac");
+		if (ui->IsGUI()) {
+			UImanager->ApplyCommand("/control/execute gui.mac");
+		}
+		ui->SessionStart();
+		delete ui;
+	}
 
-  analysis->Save(); 
+	analysis->Save(); 
 
-  // Job termination
-  // Free the store: user actions, physics_list and detector_description are
-  // owned and deleted by the run manager, so they should not be deleted
-  // in the main() program !
-  //
-  delete visManager;
-  delete runManager;
+	// Job termination
+	// Free the store: user actions, physics_list and detector_description are
+	// owned and deleted by the run manager, so they should not be deleted
+	// in the main() program !
+	//
+	delete visManager;
+	delete runManager;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo.....
