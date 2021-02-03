@@ -18,15 +18,18 @@ class UKALAnalysisManager {
 
     // create the root files and histograms
     // void FillTH2D(G4double x, G4double y, G4double energy); 
-    void FillTH1D(G4double energy); 
+    //void FillTH1D(TH1D *h1, G4double energy); 
+    //TH1D* GetHistogram(TH1D* h1) {return h1; }
     // save the result at the end of each run to the ROOT file
     void Save(); 
 
     private: 
         static UKALAnalysisManager* instance; 
-    private: 
+    public: 
         TFile *outroot; 
         TH1D *h1Test; 
+        TH1D *h1HPGe; 
+        TH1D *h1Sample; 
 }; 
 
 

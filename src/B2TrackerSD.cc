@@ -37,6 +37,8 @@
 
 #include "UKALAnalysisManager.hh"
 
+using namespace std; 
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 B2TrackerSD::B2TrackerSD(const G4String& name,
@@ -80,12 +82,23 @@ G4bool B2TrackerSD::ProcessHits(G4Step* aStep,
 
 	// get this hit
 	B2TrackerHit* aHit = new B2TrackerHit();
+	G4int nHits = fHitsCollection->entries(); 
+
+	// verbose
+	// // cout << "\t Yongchi: number of hits in this event: " << fHitsCollection->entries() << endl;
+	// cout << "particle type: " << aStep->GetTrack()->GetDefinition()->GetParticleType()
+	// 	 << "; particle name: " << aStep->GetTrack()->GetDefinition()->GetParticleName()
+	// 	 << "; energy = " << aStep->GetTotalEnergyDeposit()/keV << " keV"
+	// 	 << endl;
+
+
 	// process this hit
 	aHit->SetTrackID  (aStep->GetTrack()->GetTrackID());
 	aHit->SetChamberNb(aStep->GetPreStepPoint()->GetTouchableHandle()
 						 ->GetCopyNumber());
-	aHit->SetEdep(edep);
+	aHit->AddEdep(edep);
 	aHit->SetPos (aStep->GetPostStepPoint()->GetPosition());
+
 	// by Yongchi - process this hit for more information - refer to e16032 simulation
 	G4double gt = aStep->GetPreStepPoint()->GetGlobalTime();
 	aHit->SetGtime( gt );
@@ -97,13 +110,14 @@ G4bool B2TrackerSD::ProcessHits(G4Step* aStep,
 	aHit->SetKineticEnergy(ke);
 	G4int pa = aStep->GetTrack()->GetParentID();
 	aHit->SetParentno( pa );
+	// particle
 	G4String ty = aStep->GetTrack()->GetDefinition()->GetParticleType();
 	aHit->SetParticletype( ty );
 	G4String nam = aStep->GetTrack()->GetDefinition()->GetParticleName();
 	aHit->SetParticlename( nam );
-
 	G4String volname = aStep->GetTrack()->GetVolume()->GetName();
 	aHit->SetVolName( volname );
+	// cout << "Paticle = " << aHit->GetParticlename() << endl; // verbose
 
 	G4ThreeVector pre = aStep->GetPreStepPoint()->GetPosition();
 	aHit->SetPrePosition( pre );
@@ -128,8 +142,9 @@ G4bool B2TrackerSD::ProcessHits(G4Step* aStep,
 
 	// // by Yongchi - for info output
 	// UKALAnalysisManager *analysis = UKALAnalysisManager::GetInstance(); 
-	// analysis->FillTH1D(edep/keV); 
-
+	// if(aHit->GetParticlename() == "e-") {
+	// 	analysis->FillTH1D(edep/keV); 	
+	// }
 	// G4cout << edep/keV << " keV" << G4endl; 
 
 	return true;

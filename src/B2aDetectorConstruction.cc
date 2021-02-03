@@ -228,7 +228,9 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
 	// logical 
 	logicUKALSample = new G4LogicalVolume(solidUKALSample, 
 										  sampleMater, 
-										  //SegaMater, 
+										  //hpgeMater,  
+										  //fTargetMaterial,
+										  //fChamberMaterial,  
 										  "logicUKALSample"); 
 	// physical
 	// placement, see below CeBr3 for refernece, use a G4ThreeVector for xyz position as a whole

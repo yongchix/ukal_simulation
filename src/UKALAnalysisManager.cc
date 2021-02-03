@@ -25,12 +25,16 @@ void UKALAnalysisManager::book() {
     delete outroot; 
     // define the ROOT file
     outroot = new TFile("B2_test.root", "RECREATE"); 
-    h1Test = new TH1D("h1Test", "Test", 1024, 0, 1024); 
+    h1Test = new TH1D("h1Test", "Test", 4096*4, 0, 4096); 
+    h1Sample = new TH1D("h1Sample", "Energy Deposition in Sample, gated on e-; keV; Counts/0.25 keV", 
+                        4096*4, 0, 4096); 
+    h1HPGe = new TH1D("h1HPGe", "Energy Deposition in HPGe, gated on e-; keV; Counts/0.25 keV", 
+                      4096*4, 0, 4096);                     
 }
 
-void UKALAnalysisManager::FillTH1D(G4double energy) {
-    h1Test->Fill(energy); 
-}
+// void UKALAnalysisManager::FillTH1D(TH1D *h1, G4double energy) {
+//     h1->Fill(energy); 
+// }
 
 void UKALAnalysisManager::Save() {
     if(outroot) {

@@ -35,8 +35,26 @@
 #include "G4Trajectory.hh"
 #include "G4ios.hh"
 #include "G4SDManager.hh"
+#include "G4SystemOfUnits.hh"
 
 #include "B2TrackerHit.hh"
+
+#include "TROOT.h"
+#include "TApplication.h"
+#include "TSystem.h"
+#include "TH1.h"
+#include "TH2.h"
+#include "TPad.h"
+#include "TCanvas.h"
+#include "TFile.h"
+#include "TNtuple.h"
+#include "TStopwatch.h"
+#include "TTree.h"
+#include "TRandom.h"
+
+#include "UKALAnalysisManager.hh"
+
+using namespace std; 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -104,6 +122,48 @@ void B2EventAction::EndOfEventAction(const G4Event* event)
 		DHCSample = (B2TrackerHitsCollection*)HCE->GetHC(sampleID); 
 		DHCHPGe = (B2TrackerHitsCollection*)HCE->GetHC(hpgeID); 
 	}
+
+	if(DHCSample) {
+		int nHits = DHCSample->entries(); 
+		G4double energyTotal = 0; 
+		for(int i = 0; i < nHits; i++) {
+			G4String particleName = (*DHCSample)[i]->GetParticlename(); 
+			// cout << "Particle name = " << particleName << endl;
+			G4double energy = (*DHCSample)[i]->GetEdep()/keV; 
+			G4int stepNo = (*DHCSample)[i]->GetStepno(); 
+			if(particleName == "e-") {
+				energyTotal += energy; 
+			}
+		}
+		energyTotal = gRandom->Gaus(energyTotal, 0.01*energyTotal/2.35); 
+		UKALAnalysisManager *analysis = UKALAnalysisManager::GetInstance(); 
+		if(energyTotal > 0) analysis->h1Sample->Fill(energyTotal); 
+	}
+
+	if(DHCHPGe) {
+		int nHits = DHCHPGe->entries(); 
+		G4double energyTotal = 0; 
+		for(int i = 0; i < nHits; i++) {
+			G4String particleName = (*DHCHPGe)[i]->GetParticlename(); 
+			G4double energy = (*DHCHPGe)[i]->GetEdep()/keV; 
+			G4int stepNo = (*DHCHPGe)[i]->GetStepno(); 
+			if(particleName == "e-") {
+				energyTotal += energy; 
+			}
+		}
+		// fill histogram with resolution
+		if(energyTotal > 300) {
+			energyTotal = gRandom->Gaus(energyTotal, 0.0037*energyTotal/2.35); 
+		} else if(energyTotal > 200) {
+			energyTotal = gRandom->Gaus(energyTotal, 0.012*energyTotal/2.35);
+		} else {
+			energyTotal = gRandom->Gaus(energyTotal, 0.022*energyTotal/2.35);
+		}
+		UKALAnalysisManager *analysis = UKALAnalysisManager::GetInstance();
+		if(energyTotal > 0) analysis->h1HPGe->Fill(energyTotal); 
+	}
+
+
 
 	// if(DHTracker) {
 	// 	int nHits = DHTracker->entries(); 

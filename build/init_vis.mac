@@ -3,7 +3,9 @@
 #
 
 # ----- select physics list -----
-/UKAL_sim/phys/addPhysics LEND
+#/UKAL_sim/phys/addPhysics LEND
+/UKAL_sim/phys/addPhysics QGSP_BERT_HP
+#/UKAL_sim/phys/addPhysics QGSP_BIC_HP
 /UKAL_sim/phys/addPhysics Standard_EM
 
 # ----- select detectors to use -----
@@ -27,4 +29,5 @@
 
 # Visualization setting
 /control/execute vis.mac
+/control/execute run2.mac
 
