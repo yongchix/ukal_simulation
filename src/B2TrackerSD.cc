@@ -78,18 +78,18 @@ G4bool B2TrackerSD::ProcessHits(G4Step* aStep,
 	// energy deposit
 	G4double edep = aStep->GetTotalEnergyDeposit();
 
-	if (edep==0.) return false;
+	if (edep==0.) return true; // false; 
 
 	// get this hit
 	B2TrackerHit* aHit = new B2TrackerHit();
 	G4int nHits = fHitsCollection->entries(); 
 
-	// verbose
-	// // cout << "\t Yongchi: number of hits in this event: " << fHitsCollection->entries() << endl;
-	// cout << "particle type: " << aStep->GetTrack()->GetDefinition()->GetParticleType()
-	// 	 << "; particle name: " << aStep->GetTrack()->GetDefinition()->GetParticleName()
-	// 	 << "; energy = " << aStep->GetTotalEnergyDeposit()/keV << " keV"
-	// 	 << endl;
+	// // verbose
+	// G4cout << "\t Yongchi: number of hits in this event: " << fHitsCollection->entries() << G4endl;
+	// G4cout << "particle type: " << aStep->GetTrack()->GetDefinition()->GetParticleType()
+	// 	   << "; particle name: " << aStep->GetTrack()->GetDefinition()->GetParticleName()
+	// 	   << "; energy = " << aStep->GetTotalEnergyDeposit()/keV << " keV"
+	// 	   << G4endl;
 
 
 	// process this hit

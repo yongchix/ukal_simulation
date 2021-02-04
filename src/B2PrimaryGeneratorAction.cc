@@ -94,6 +94,7 @@ void B2PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   // fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., -worldZHalfLength));
 
   fParticleGun->GeneratePrimaryVertex(anEvent);
+  // G4cout << "particle energy = " << fParticleGun->GetParticleEnergy()/keV << G4endl; 
 
   // UKALAnalysisManager *analysis = UKALAnalysisManager::GetInstance(); 
   // analysis->FillTH1D(512); 

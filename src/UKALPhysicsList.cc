@@ -222,68 +222,68 @@ void UKALPhysicsList::ConstructProcess()
     fEmPhysicsList->ConstructProcess();
     // decays
     particleList->ConstructProcess(); 
-    raddecayList->ConstructProcess(); 
+    // raddecayList->ConstructProcess(); 
     // // hadroms
 	// hadPhysicsList->ConstructProcess(); 
 
-    // // migrated from e16032 simulation
-    // G4RadioactiveDecay *radioactiveDecay = new G4RadioactiveDecay(); 
-    // radioactiveDecay->SetICM(true); 
-    // radioactiveDecay->SetARM(true); 
-    // G4PhysicsListHelper *ph = G4PhysicsListHelper::GetPhysicsListHelper(); 
-    // ph->RegisterProcess(radioactiveDecay, //G4GenericIon::GenericIon); 
-    //                     //G4ParticleDefinition::IsGeneralIon()); 
-    //                     G4GenericIon::
-    // //
-    // // deexcitation in case of atomic rearrangement
-    // G4UAtomicDeexcitation* de = new G4UAtomicDeexcitation();
-    // de->SetFluo(true);
-    // de->SetAuger(true);
-    // de->SetPIXE(false);
-    // G4LossTableManager::Instance()->SetAtomDeexcitation(de);    
+    // migrated from e16032 simulation
+    G4RadioactiveDecay *radioactiveDecay = new G4RadioactiveDecay(); 
+    radioactiveDecay->SetICM(true); 
+    radioactiveDecay->SetARM(true); 
+    G4PhysicsListHelper *ph = G4PhysicsListHelper::GetPhysicsListHelper(); 
+    ph->RegisterProcess(radioactiveDecay, //G4GenericIon::GenericIon); 
+                        //G4ParticleDefinition::IsGeneralIon()); 
+                        G4GenericIon::GenericIon()); 
     //
-    // 
-    if(hadPhysicsList) hadPhysicsList->ConstructProcess(); 
+    // deexcitation in case of atomic rearrangement
+    G4UAtomicDeexcitation* de = new G4UAtomicDeexcitation();
+    de->SetFluo(true);
+    de->SetAuger(true);
+    de->SetPIXE(false);
+    G4LossTableManager::Instance()->SetAtomDeexcitation(de);    
+    //
+    
     // had
     if(nhadcomp > 0) {
         for(G4int i = 0; i < nhadcomp; i++) {
             hadronPhys[i]->ConstructProcess();
         }
     }
+    if(hadPhysicsList) hadPhysicsList->ConstructProcess(); 
     G4cout << "Construction of Physics List Done! " << G4endl; 
 
-    AddDecay(); // see below
+    // AddDecay(); // see below
     // AddStepMax(); // see below
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#include "G4Decay.hh"
+// #include "G4Decay.hh"
 
-void UKALPhysicsList::AddDecay()
-{
-    // Add Decay Process
+// void UKALPhysicsList::AddDecay()
+// {
+//     // Add Decay Process
     
-    G4Decay* fDecayProcess = new G4Decay();
+//     G4Decay* fDecayProcess = new G4Decay();
     
-    auto particleIterator=GetParticleIterator();
-    particleIterator->reset();
-    while( (*particleIterator)() ){
-        G4ParticleDefinition* particle = particleIterator->value();
-        G4ProcessManager* pmanager = particle->GetProcessManager();
+//     auto particleIterator=GetParticleIterator();
+//     particleIterator->reset();
+//     while( (*particleIterator)() ){
+//         G4ParticleDefinition* particle = particleIterator->value();
+//         G4ProcessManager* pmanager = particle->GetProcessManager();
         
-        if (fDecayProcess->IsApplicable(*particle) && 
-              !particle->IsShortLived()) {
+//         if (fDecayProcess->IsApplicable(*particle) && 
+//               !particle->IsShortLived()) {
             
-            pmanager ->AddProcess(fDecayProcess);
+//             pmanager ->AddProcess(fDecayProcess);
             
-            // set ordering for PostStepDoIt and AtRestDoIt
-            pmanager ->SetProcessOrdering(fDecayProcess, idxPostStep);
-            pmanager ->SetProcessOrdering(fDecayProcess, idxAtRest);
+//             // set ordering for PostStepDoIt and AtRestDoIt
+//             pmanager ->SetProcessOrdering(fDecayProcess, idxPostStep);
+//             pmanager ->SetProcessOrdering(fDecayProcess, idxAtRest);
             
-        }
-    }
-}
+//         }
+//     }
+// }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -315,71 +315,72 @@ void UKALPhysicsList::AddPhysicsList(const G4String& name)
         G4cout << "UKALPhysicsList::AddPhysicsList: <" << name << ">" << G4endl;
     }
     
-    if (name == fEmName) return;
+    // if (name == fEmName) return;
     
-    if (name == "emstandard_opt0") {
+    // if (name == "emstandard_opt0") {
         
-        fEmName = name;
-        delete fEmPhysicsList;
-        fEmPhysicsList = new G4EmStandardPhysics(1);
+    //     fEmName = name;
+    //     delete fEmPhysicsList;
+    //     fEmPhysicsList = new G4EmStandardPhysics(1);
         
-    } else if (name == "emstandard_opt1") {
+    // } else if (name == "emstandard_opt1") {
         
-        fEmName = name;
-        delete fEmPhysicsList;
-        fEmPhysicsList = new G4EmStandardPhysics_option1(1);
+    //     fEmName = name;
+    //     delete fEmPhysicsList;
+    //     fEmPhysicsList = new G4EmStandardPhysics_option1(1);
         
-    } else if (name == "emstandard_opt2") {
+    // } else if (name == "emstandard_opt2") {
         
-        fEmName = name;
-        delete fEmPhysicsList;
-        fEmPhysicsList = new G4EmStandardPhysics_option2(1);
+    //     fEmName = name;
+    //     delete fEmPhysicsList;
+    //     fEmPhysicsList = new G4EmStandardPhysics_option2(1);
         
-    } else if (name == "emstandard_opt3") {
+    // } else if (name == "emstandard_opt3") {
         
-        fEmName = name;
-        delete fEmPhysicsList;
-        fEmPhysicsList = new G4EmStandardPhysics_option3(1);
+    //     fEmName = name;
+    //     delete fEmPhysicsList;
+    //     fEmPhysicsList = new G4EmStandardPhysics_option3(1);
 
-    } else if (name == "emstandard_opt4") {
+    // } else if (name == "emstandard_opt4") {
         
-        fEmName = name;
-        delete fEmPhysicsList;
-        fEmPhysicsList = new G4EmStandardPhysics_option4(1);
+    //     fEmName = name;
+    //     delete fEmPhysicsList;
+    //     fEmPhysicsList = new G4EmStandardPhysics_option4(1);
 
-    } else if (name == "emlowenergy") {
-        fEmName = name;
-        delete fEmPhysicsList;
-        fEmPhysicsList = new G4EmLowEPPhysics(1);
+    // } else if (name == "emlowenergy") {
+    //     fEmName = name;
+    //     delete fEmPhysicsList;
+    //     fEmPhysicsList = new G4EmLowEPPhysics(1);
 
-    } else if (name == "emstandardSS") {
-        fEmName = name;
-        delete fEmPhysicsList;
-        fEmPhysicsList = new G4EmStandardPhysicsSS(1);
+    // } else if (name == "emstandardSS") {
+    //     fEmName = name;
+    //     delete fEmPhysicsList;
+    //     fEmPhysicsList = new G4EmStandardPhysicsSS(1);
 
-    } else if (name == "emstandardWVI") {
-        fEmName = name;
-        delete fEmPhysicsList;
-        fEmPhysicsList = new G4EmStandardPhysicsWVI(1);
+    // } else if (name == "emstandardWVI") {
+    //     fEmName = name;
+    //     delete fEmPhysicsList;
+    //     fEmPhysicsList = new G4EmStandardPhysicsWVI(1);
 
-    } else if (name == "emstandardGS") {
-        fEmName = name;
-        delete fEmPhysicsList;
-        fEmPhysicsList = new G4EmStandardPhysicsGS(1);
+    // } else if (name == "emstandardGS") {
+    //     fEmName = name;
+    //     delete fEmPhysicsList;
+    //     fEmPhysicsList = new G4EmStandardPhysicsGS(1);
 
-    } else if (name == "emlivermore") {
-        fEmName = name;
-        delete fEmPhysicsList;
-        fEmPhysicsList = new G4EmLivermorePhysics(1);
+    // } else if (name == "emlivermore") {
+    //     fEmName = name;
+    //     delete fEmPhysicsList;
+    //     fEmPhysicsList = new G4EmLivermorePhysics(1);
 
-    } else if (name == "empenelope") {
-        fEmName = name;
-        delete fEmPhysicsList;
-        fEmPhysicsList = new G4EmPenelopePhysics(1);
+    // } else if (name == "empenelope") {
+    //     fEmName = name;
+    //     delete fEmPhysicsList;
+    //     fEmPhysicsList = new G4EmPenelopePhysics(1);
 
-    } 
+    // } 
     // below migrated from void UKAL_simPhysicsList::SelectPhysicsList(const G4String& name)
-    else if(name == "Hadron" && !hadPhysicsList) {
+    //else 
+    if(name == "Hadron" && !hadPhysicsList) {
         ; // do nothing as it was
     } else if(name == "QGSP_BERT_HP"  && !hadPhysicsList) {
         AddExtraBuilders(true);

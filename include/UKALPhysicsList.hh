@@ -51,7 +51,7 @@ public:
   void AddPhysicsList(const G4String& name);
     
   virtual void ConstructProcess();    
-  void AddDecay();
+  // void AddDecay();
   // void AddStepMax();      
 
   // migrated from e16032 simulation

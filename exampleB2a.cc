@@ -116,7 +116,7 @@ int main(int argc,char** argv)
 		// interactive mode
 		UImanager->ApplyCommand("/control/execute init_vis.mac");
 		// UImanager->ApplyCommand("/control/execute vis.mac"); 
-		UImanager->ApplyCommand("/control/execute run2.mac");
+		// UImanager->ApplyCommand("/control/execute run2.mac");
 		if (ui->IsGUI()) {
 			UImanager->ApplyCommand("/control/execute gui.mac");
 		}

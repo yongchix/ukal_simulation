@@ -145,13 +145,15 @@ void B2EventAction::EndOfEventAction(const G4Event* event)
 		G4double energyTotal = 0; 
 		for(int i = 0; i < nHits; i++) {
 			G4String particleName = (*DHCHPGe)[i]->GetParticlename(); 
-			G4double energy = (*DHCHPGe)[i]->GetEdep()/keV; 
+			G4double energy = (*DHCHPGe)[i]->GetEdep()/keV; ///keV; 
 			G4int stepNo = (*DHCHPGe)[i]->GetStepno(); 
 			if(particleName == "e-") {
 				energyTotal += energy; 
 			}
+			// energyTotal += energy; 
 		}
-		// fill histogram with resolution
+
+		// add resolution to detectors
 		if(energyTotal > 300) {
 			energyTotal = gRandom->Gaus(energyTotal, 0.0037*energyTotal/2.35); 
 		} else if(energyTotal > 200) {
@@ -159,8 +161,17 @@ void B2EventAction::EndOfEventAction(const G4Event* event)
 		} else {
 			energyTotal = gRandom->Gaus(energyTotal, 0.022*energyTotal/2.35);
 		}
+
 		UKALAnalysisManager *analysis = UKALAnalysisManager::GetInstance();
-		if(energyTotal > 0) analysis->h1HPGe->Fill(energyTotal); 
+		if(energyTotal > 0) 
+		analysis->h1HPGe->Fill(energyTotal); 
+
+		// G4cout << " Energy = " 
+		// 	   << energyTotal 
+		// 	   << " keV from " << nHits << " hits"
+		// 	   << G4endl; 
+		
+
 	}
 
 

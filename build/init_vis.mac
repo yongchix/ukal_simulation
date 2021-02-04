@@ -7,8 +7,13 @@
 /UKAL/analysis/dirname UKAL
 
 # ----- select physics list -----
+# Standard_EM
+# LowEnergy_EM_Livermore
+# LEND
+# QGSP_BERT_HP
+# QGSP_BIC_HP
 #/UKAL_sim/phys/addPhysics LEND
-/UKAL_sim/phys/addPhysics QGSP_BERT_HP
+#/UKAL_sim/phys/addPhysics QGSP_BERT_HP
 #/UKAL_sim/phys/addPhysics QGSP_BIC_HP
 /UKAL_sim/phys/addPhysics Standard_EM
 
@@ -34,5 +39,5 @@
 
 # Visualization setting
 /control/execute vis.mac
-#/control/execute run2.mac
+/control/execute run2.mac
 

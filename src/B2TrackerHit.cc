@@ -45,7 +45,8 @@ B2TrackerHit::B2TrackerHit()
 	  fTrackID(-1),
 	  fChamberNb(-1),
 	  fEdep(0.),
-	  fPos(G4ThreeVector())
+	  fPos(G4ThreeVector()), 
+	  edep(0) // this is very important
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
