@@ -13,14 +13,15 @@
 # QGSP_BERT_HP
 # QGSP_BIC_HP
 #/UKAL_sim/phys/addPhysics LEND
-#/UKAL_sim/phys/addPhysics QGSP_BERT_HP
+/UKAL_sim/phys/addPhysics QGSP_BERT_HP
 #/UKAL_sim/phys/addPhysics QGSP_BIC_HP
 /UKAL_sim/phys/addPhysics Standard_EM
 
 # ----- select detectors to use -----
 /UKAL_sim/det/UseUKALSample true
 /UKAL_sim/det/UseUKALHPGe true
-
+/UKAL_sim/det/SetUKALHPGeAngle 90
+/UKAL_sim/det/SetUKALHPGePosRadius 200
 
 
 

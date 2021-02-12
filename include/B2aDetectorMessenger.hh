@@ -72,6 +72,9 @@ private:
     G4UIcmdWithABool*          useUKALSampleCmd; 
     G4UIcmdWithABool*          useUKALHPGeCmd; 
     G4UIcmdWithABool*          useUKALBGOCmd;
+    // set parameters of detectors
+    G4UIcmdWithADoubleAndUnit* setUKALHPGeAngleCmd; 
+    G4UIcmdWithADoubleAndUnit* setUKALHPGePosRadiusCmd; 
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

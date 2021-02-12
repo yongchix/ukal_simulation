@@ -7,6 +7,7 @@
 #include "TROOT.h"
 #include "TH1D.h"
 #include "TH2D.h"
+#include "TF1.h"
 
 class UKALAnalysisMessenger; 
 
@@ -41,6 +42,9 @@ class UKALAnalysisManager {
     private: 
         G4String filename; 
         G4String dirname; 
+
+    public: 
+        TF1 *f1Res; 
 }; 
 
 

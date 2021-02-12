@@ -60,12 +60,15 @@ using namespace std;
 
 B2EventAction::B2EventAction()
 	: G4UserEventAction()
-{}
+{
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 B2EventAction::~B2EventAction()
-{}
+{
+//	delete f1Res; 
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -135,7 +138,9 @@ void B2EventAction::EndOfEventAction(const G4Event* event)
 				energyTotal += energy; 
 			}
 		}
-		energyTotal = gRandom->Gaus(energyTotal, 0.01*energyTotal/2.35); 
+		//energyTotal = gRandom->Gaus(energyTotal, 0.01*energyTotal/2.35); 
+		if(energyTotal > 0)
+			energyTotal = gRandom->Gaus(energyTotal, energyTotal/100.0/2.35);
 		UKALAnalysisManager *analysis = UKALAnalysisManager::GetInstance(); 
 		if(energyTotal > 0) analysis->h1Sample->Fill(energyTotal); 
 	}
@@ -154,22 +159,20 @@ void B2EventAction::EndOfEventAction(const G4Event* event)
 		}
 
 		// add resolution to detectors
-		if(energyTotal > 300) {
-			energyTotal = gRandom->Gaus(energyTotal, 0.0037*energyTotal/2.35); 
-		} else if(energyTotal > 200) {
-			energyTotal = gRandom->Gaus(energyTotal, 0.012*energyTotal/2.35);
-		} else {
-			energyTotal = gRandom->Gaus(energyTotal, 0.022*energyTotal/2.35);
+		if(energyTotal > 0) {
+			UKALAnalysisManager *analysis = UKALAnalysisManager::GetInstance();
+			if(energyTotal > 0) {
+				// energyTotal = gRandom->Gaus(energyTotal, analysis->f1Res->Eval(energyTotal)); 
+				energyTotal = gRandom->Gaus(energyTotal,
+											analysis->f1Res->Eval(energyTotal));  
+				analysis->h1HPGe->Fill(energyTotal); 
+			}
+
+			// G4cout << " Energy = " 
+			// 	   << energyTotal 
+			// 	   << " keV from " << nHits << " hits"
+			// 	   << G4endl; 
 		}
-
-		UKALAnalysisManager *analysis = UKALAnalysisManager::GetInstance();
-		if(energyTotal > 0) 
-		analysis->h1HPGe->Fill(energyTotal); 
-
-		// G4cout << " Energy = " 
-		// 	   << energyTotal 
-		// 	   << " keV from " << nHits << " hits"
-		// 	   << G4endl; 
 		
 
 	}

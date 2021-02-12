@@ -35,6 +35,8 @@
 #include "G4UIcmdWithADoubleAndUnit.hh"
 #include "G4UIcmdWithABool.hh"
 
+#include "G4SystemOfUnits.hh"
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 B2aDetectorMessenger::B2aDetectorMessenger(B2aDetectorConstruction* Det)
@@ -74,6 +76,20 @@ B2aDetectorMessenger::B2aDetectorMessenger(B2aDetectorConstruction* Det)
 	useUKALHPGeCmd->SetGuidance("activate HPGe"); 
 	useUKALHPGeCmd->SetParameterName("choice", false); 
 	useUKALHPGeCmd->AvailableForStates(G4State_PreInit); 
+	//
+	setUKALHPGeAngleCmd = new G4UIcmdWithADoubleAndUnit("/UKAL_sim/det/SetUKALHPGeAngle", this); 
+	setUKALHPGeAngleCmd->SetGuidance("rotate the HPGe"); 
+	setUKALHPGeAngleCmd->SetParameterName("angle", false); 
+	// setUKALHPGeAngleCmd->SetUnitCategory("Length"); 
+	setUKALHPGeAngleCmd->SetDefaultUnit("deg"); 
+	setUKALHPGeAngleCmd->AvailableForStates(G4State_PreInit, G4State_Idle); 
+	// 
+	setUKALHPGePosRadiusCmd = new G4UIcmdWithADoubleAndUnit("/UKAL_sim/det/SetUKALHPGePosRadius", this); 
+	setUKALHPGePosRadiusCmd->SetGuidance("Move HPGe forward/backward"); 
+	setUKALHPGePosRadiusCmd->SetParameterName("length", false); 
+	// setUKALHPGePosRadiusCmd->SetUnitCategory("Length"); 
+	setUKALHPGePosRadiusCmd->SetDefaultUnit("mm"); 
+	setUKALHPGePosRadiusCmd->AvailableForStates(G4State_PreInit, G4State_Idle); 
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -88,6 +104,8 @@ B2aDetectorMessenger::~B2aDetectorMessenger()
 
 	delete useUKALSampleCmd; 
 	delete useUKALHPGeCmd; 
+	delete setUKALHPGePosRadiusCmd; 
+	delete setUKALHPGeAngleCmd; 
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -112,6 +130,14 @@ void B2aDetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 	}
 	if(command == useUKALHPGeCmd) {
 		fDetectorConstruction->SetUseUKALHPGe(useUKALHPGeCmd->GetNewBoolValue(newValue)); 
+	}
+
+	// change detector positions
+	if(command == setUKALHPGeAngleCmd) {
+		fDetectorConstruction->SetDetectorPhi(360*degree - setUKALHPGeAngleCmd->GetNewDoubleValue(newValue)); 
+	}
+	if(command == setUKALHPGePosRadiusCmd) {
+		fDetectorConstruction->SetDetectorPosRadius(setUKALHPGePosRadiusCmd->GetNewDoubleValue(newValue)); 
 	}
 }
 

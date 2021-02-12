@@ -72,6 +72,8 @@ private:     // by Yongchi - for UKAL
 public:     // by Yongchi - for UKAL
     void SetUseUKALSample(G4bool value) {fUseUKALSample = value; }
     void SetUseUKALHPGe(G4bool value) {fUseUKALHPGe = value; }
+    void SetDetectorPhi(G4double value) {hpgePhi = value; }
+    void SetDetectorPosRadius(G4double value) {hpgePosRadius = value; }
 
 private:
     // methods
@@ -99,6 +101,8 @@ private:
     G4double fUKALSample_zpos; 
     G4ThreeVector fUKALSamplePos;
     // by Yongchi - add the hpge detector
+    G4double hpgePhi; 
+    G4double hpgePosRadius; 
     G4Tubs *solidUKALHPGe; 
     G4LogicalVolume *logicUKALHPGe; 
     G4VPhysicalVolume *physiUKALHPGe; 

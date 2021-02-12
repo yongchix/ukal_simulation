@@ -34,6 +34,8 @@
 
 #include "globals.hh"
 
+#include "TF1.h"
+
 /// Event action class
 
 class B2EventAction : public G4UserEventAction
@@ -44,6 +46,9 @@ class B2EventAction : public G4UserEventAction
 
     virtual void  BeginOfEventAction(const G4Event* );
     virtual void    EndOfEventAction(const G4Event* );
+
+  private: 
+    TF1 *f1Res; 
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

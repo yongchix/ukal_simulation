@@ -15,6 +15,7 @@ UKALAnalysisManager::~UKALAnalysisManager() {
     delete messenger; 
     delete outroot; outroot = 0; 
     delete h1Test; h1Test = 0; 
+    delete f1Res; 
 }
 
 UKALAnalysisManager* UKALAnalysisManager::GetInstance() {
@@ -28,6 +29,17 @@ void UKALAnalysisManager::book() {
     delete outroot; 
 
     //G4cout << "\n\n\n\n\nfilename = " << filename.c_str() << "\n\n\n\n\n" << G4endl; 
+
+    f1Res = new TF1("f1Res", "pol3", 0, 5000); 
+   	// set the resolution curve: energy resolution vs. energy
+	f1Res->SetParameter(0, 0.309014); 
+	f1Res->SetParameter(1, 0.000358818); 
+	f1Res->SetParameter(2, -2.39312e-08); 
+	f1Res->SetParameter(3, -1.93058e-11); 
+	// f1Res->SetParameter(4, 8.10315e-13);
+	// f1Res->SetParameter(5, 6.46717e-16);
+	// f1Res->SetParameter(6, -1.62965e-19);
+
 
     // define the ROOT file
     outroot = new TFile(Form("B2_%s.root", filename.c_str()), 

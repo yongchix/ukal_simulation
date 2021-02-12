@@ -66,7 +66,8 @@ B2aDetectorConstruction::B2aDetectorConstruction()
 	 fLogicTarget(NULL), fLogicChamber(NULL), 
 	 fTargetMaterial(NULL), fChamberMaterial(NULL), 
 	 fStepLimit(NULL),
-	 fCheckOverlaps(true)
+	 fCheckOverlaps(true),
+	 hpgePhi(180*degree), hpgePosRadius(10*mm)
 {
 	fMessenger = new B2aDetectorMessenger(this);
 
@@ -255,13 +256,13 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
 	logicUKALHPGe = new G4LogicalVolume(solidUKALHPGe, 
 										hpgeMater, 
 										"logicUKALHPGe"); 
-	// physical
-	// placement
-	fUKALHPGe_zpos = 0.5*hpgeDz; 
-	fUKALHPGePos = G4ThreeVector(-1*fUKALHPGe_zpos - 60*mm, 0, 0); 
-	G4RotationMatrix *rotateUKALHPGe = new G4RotationMatrix(); 
-	rotateUKALHPGe->rotateY(90*degree); 
+	// physical - placement
+	// fUKALHPGe_zpos = 0.5*hpgeDz; 
 	if(fUseUKALHPGe) {
+		fUKALHPGePos = G4ThreeVector(hpgePosRadius*sin(hpgePhi), 0, hpgePosRadius*cos(hpgePhi)); //-1*fUKALHPGe_zpos - 60*mm, 0, 0); 
+		G4RotationMatrix *rotateUKALHPGe = new G4RotationMatrix(); 
+		rotateUKALHPGe->rotateY(180*degree-hpgePhi); 	
+
 		physiUKALHPGe = new G4PVPlacement(rotateUKALHPGe, fUKALHPGePos, logicUKALHPGe, "UKALHPGe", 
 										  worldLV, 
 										  false, 0, true); 
