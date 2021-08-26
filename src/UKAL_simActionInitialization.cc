@@ -24,51 +24,39 @@
 // ********************************************************************
 //
 //
-/// \file B2TrackerSD.hh
-/// \brief Definition of the B2TrackerSD class
+/// \file UKAL_simActionInitialization.cc
+/// \brief Implementation of the UKAL_simActionInitialization class
 
-#ifndef B2TrackerSD_h
-#define B2TrackerSD_h 1
-
-#include "G4VSensitiveDetector.hh"
-
-#include "B2TrackerHit.hh"
-
-#include <vector>
-
-class G4Step;
-class G4HCofThisEvent;
+#include "UKAL_simActionInitialization.hh"
+#include "UKAL_simPrimaryGeneratorAction.hh"
+#include "UKAL_simRunAction.hh"
+#include "UKAL_simEventAction.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-/// B2Tracker sensitive detector class
-///
-/// The hits are accounted in hits in ProcessHits() function which is called
-/// by Geant4 kernel at each step. A hit is created with each step with non zero 
-/// energy deposit.
+UKAL_simActionInitialization::UKAL_simActionInitialization()
+ : G4VUserActionInitialization()
+{}
 
-class B2TrackerSD : public G4VSensitiveDetector
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+UKAL_simActionInitialization::~UKAL_simActionInitialization()
+{}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void UKAL_simActionInitialization::BuildForMaster() const
 {
-public:
-    B2TrackerSD(const G4String& name, 
-                const G4String& hitsCollectionName);
-    virtual ~B2TrackerSD();
-  
-    // methods from base class
-    virtual void   Initialize(G4HCofThisEvent* hitCollection);
-    virtual G4bool ProcessHits(G4Step* step, G4TouchableHistory* history);
-    virtual void   EndOfEvent(G4HCofThisEvent* hitCollection);
-    //
-    // void clear(); 
-    // void DrawAll(); 
-    // void PrintAll(); 
-
-private:
-    B2TrackerHitsCollection* fHitsCollection;
-    // by Yongchi - refer to e16032 simulation
-    G4int HCID; 
-};
+  SetUserAction(new UKAL_simRunAction);
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#endif
+void UKAL_simActionInitialization::Build() const
+{
+  SetUserAction(new UKAL_simPrimaryGeneratorAction);
+  SetUserAction(new UKAL_simRunAction);
+  SetUserAction(new UKAL_simEventAction);
+}  
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

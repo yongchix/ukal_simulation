@@ -1,22 +1,22 @@
-#ifndef UKAL_ANALYSIS_MESSENGER_HH
-#define UKAL_ANALYSIS_MESSENGER_HH 1
+#ifndef UKAL_sim_ANALYSIS_MESSENGER_HH
+#define UKAL_sim_ANALYSIS_MESSENGER_HH 1
 
 #include "globals.hh"
 #include "G4UImessenger.hh"
 
-class UKALAnalysisManager; 
+class UKAL_simAnalysisManager; 
 class G4UIdirectory;
 class G4UIcmdWithAString;
 class G4UIcmdWithAnInteger;
 
-class UKALAnalysisMessenger : public G4UImessenger {
+class UKAL_simAnalysisMessenger : public G4UImessenger {
     public: 
-        UKALAnalysisMessenger(UKALAnalysisManager*); 
-        ~UKALAnalysisMessenger(); 
+        UKAL_simAnalysisMessenger(UKAL_simAnalysisManager*); 
+        ~UKAL_simAnalysisMessenger(); 
         void SetNewValue(G4UIcommand*, G4String); 
     
     private: 
-        UKALAnalysisManager* analysisManager; 
+        UKAL_simAnalysisManager* analysisManager; 
         G4UIdirectory*       analysisDir;
 
         G4UIcmdWithAString*  filenameCmd; 

@@ -1,4 +1,4 @@
-#include "UKALMaterial.hh"
+#include "UKAL_simMaterial.hh"
 
 #include "globals.hh"
 #include "G4UnitsTable.hh"
@@ -10,7 +10,7 @@
 
 using namespace std; 
 
-UKALMaterial::UKALMaterial() {
+UKAL_simMaterial::UKAL_simMaterial() {
     G4NistManager* man = G4NistManager::Instance();
 
     Ge = new G4Material("Ge", 32., 72.61*g/mole, 5.325*g/cm3);
@@ -23,12 +23,12 @@ UKALMaterial::UKALMaterial() {
 	elementF19   = new G4Element("Fluorine19", "F19", 1); //9, 18.998*g/mole); 
 	elementF19->AddIsotope(isotopeF19, 100*perCent); 
 
-    // Yongchi - Scattering Sample Material at UKAL
+    // Yongchi - Scattering Sample Material at UKAL_sim
 	XeF2  = new G4Material("XeF2", 4.448*g/cm3, 2); 
 	XeF2->AddElement(elementXe136, 1); 
 	XeF2->AddElement(elementF19, 2); 
 }
 
-UKALMaterial::~UKALMaterial() {
+UKAL_simMaterial::~UKAL_simMaterial() {
     ; 
 }

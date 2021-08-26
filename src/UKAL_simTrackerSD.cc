@@ -24,10 +24,10 @@
 // ********************************************************************
 //
 //
-/// \file B2TrackerSD.cc
-/// \brief Implementation of the B2TrackerSD class
+/// \file UKAL_simTrackerSD.cc
+/// \brief Implementation of the UKAL_simTrackerSD class
 
-#include "B2TrackerSD.hh"
+#include "UKAL_simTrackerSD.hh"
 #include "G4HCofThisEvent.hh"
 #include "G4Step.hh"
 #include "G4ThreeVector.hh"
@@ -35,13 +35,13 @@
 #include "G4ios.hh"
 #include "G4SystemOfUnits.hh"
 
-#include "UKALAnalysisManager.hh"
+#include "UKAL_simAnalysisManager.hh"
 
 using namespace std; 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2TrackerSD::B2TrackerSD(const G4String& name,
+UKAL_simTrackerSD::UKAL_simTrackerSD(const G4String& name,
                          const G4String& hitsCollectionName) 
 	: G4VSensitiveDetector(name),
 	  fHitsCollection(NULL)
@@ -51,17 +51,17 @@ B2TrackerSD::B2TrackerSD(const G4String& name,
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2TrackerSD::~B2TrackerSD() 
+UKAL_simTrackerSD::~UKAL_simTrackerSD() 
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2TrackerSD::Initialize(G4HCofThisEvent* hce)
+void UKAL_simTrackerSD::Initialize(G4HCofThisEvent* hce)
 {
 	// Create hits collection
 
 	fHitsCollection 
-		= new B2TrackerHitsCollection(SensitiveDetectorName, collectionName[0]); 
+		= new UKAL_simTrackerHitsCollection(SensitiveDetectorName, collectionName[0]); 
 
 	// Add this collection in hce
 
@@ -72,7 +72,7 @@ void B2TrackerSD::Initialize(G4HCofThisEvent* hce)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-G4bool B2TrackerSD::ProcessHits(G4Step* aStep, 
+G4bool UKAL_simTrackerSD::ProcessHits(G4Step* aStep, 
 								G4TouchableHistory*)
 {  
 	// energy deposit
@@ -81,7 +81,7 @@ G4bool B2TrackerSD::ProcessHits(G4Step* aStep,
 	if (edep==0.) return true; // false; 
 
 	// get this hit
-	B2TrackerHit* aHit = new B2TrackerHit();
+	UKAL_simTrackerHit* aHit = new UKAL_simTrackerHit();
 	G4int nHits = fHitsCollection->entries(); 
 
 	// // verbose
@@ -141,7 +141,7 @@ G4bool B2TrackerSD::ProcessHits(G4Step* aStep,
 	//aHit->Print();
 
 	// // by Yongchi - for info output
-	// UKALAnalysisManager *analysis = UKALAnalysisManager::GetInstance(); 
+	// UKAL_simAnalysisManager *analysis = UKAL_simAnalysisManager::GetInstance(); 
 	// if(aHit->GetParticlename() == "e-") {
 	// 	analysis->FillTH1D(edep/keV); 	
 	// }
@@ -152,7 +152,7 @@ G4bool B2TrackerSD::ProcessHits(G4Step* aStep,
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2TrackerSD::EndOfEvent(G4HCofThisEvent*)
+void UKAL_simTrackerSD::EndOfEvent(G4HCofThisEvent*)
 {
 	if ( verboseLevel>1 ) { 
 		G4int nofHits = fHitsCollection->entries();

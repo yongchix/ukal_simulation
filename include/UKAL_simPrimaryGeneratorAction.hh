@@ -24,31 +24,44 @@
 // ********************************************************************
 //
 //
-/// \file B2EventAction.hh
-/// \brief Definition of the B2EventAction class
+/// \file UKAL_simPrimaryGeneratorAction.hh
+/// \brief Definition of the UKAL_simPrimaryGeneratorAction class
 
-#ifndef B2EventAction_h
-#define B2EventAction_h 1
+#ifndef UKAL_simPrimaryGeneratorAction_h
+#define UKAL_simPrimaryGeneratorAction_h 1
 
-#include "G4UserEventAction.hh"
-
+#include "G4VUserPrimaryGeneratorAction.hh"
+#include "G4GeneralParticleSource.hh"
 #include "globals.hh"
 
-#include "TF1.h"
+class G4ParticleGun;
+class G4Event;
 
-/// Event action class
+/// The primary generator action class with particle gum.
+///
+/// It defines a single particle which hits the Tracker 
+/// perpendicular to the input face. The type of the particle
+/// can be changed via the G4 build-in commands of G4ParticleGun class 
+/// (see the macros provided with this example).
 
-class B2EventAction : public G4UserEventAction
+class UKAL_simPrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
   public:
-    B2EventAction();
-    virtual ~B2EventAction();
+    UKAL_simPrimaryGeneratorAction();    
+    virtual ~UKAL_simPrimaryGeneratorAction();
 
-    virtual void  BeginOfEventAction(const G4Event* );
-    virtual void    EndOfEventAction(const G4Event* );
+    virtual void GeneratePrimaries(G4Event* );
 
-  private: 
-    TF1 *f1Res; 
+    // G4ParticleGun* GetParticleGun() {return fParticleGun;}
+    G4GeneralParticleSource* GetParticleGun() {return fParticleGun;}
+  
+    // Set methods
+    void SetRandomFlag(G4bool );
+
+  private:
+    // G4ParticleGun*          fParticleGun; // G4 particle gun
+    G4GeneralParticleSource *fParticleGun; 
+
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

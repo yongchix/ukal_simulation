@@ -24,35 +24,29 @@
 // ********************************************************************
 //
 //
-/// \file medical/electronScattering2/include/PhysicsListMessenger.hh
-/// \brief Definition of the PhysicsListMessenger class
+/// \file UKAL_simRunAction.hh
+/// \brief Definition of the UKAL_simRunAction class
 
-#ifndef PhysicsListMessenger_h
-#define PhysicsListMessenger_h 1
+#ifndef UKAL_simRunAction_h
+#define UKAL_simRunAction_h 1
 
-#include "G4UImessenger.hh"
+#include "G4UserRunAction.hh"
 #include "globals.hh"
-
-class PhysicsList;
-class G4UIdirectory;
-class G4UIcmdWithAString;
-class UKALPhysicsList; 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class UKALPhysicsListMessenger: public G4UImessenger
+class G4Run;
+
+/// Run action class
+
+class UKAL_simRunAction : public G4UserRunAction
 {
   public:
-    UKALPhysicsListMessenger(UKALPhysicsList* );
-    virtual ~UKALPhysicsListMessenger();
-    
-    virtual void SetNewValue(G4UIcommand*, G4String);
-    
-  private:
-    UKALPhysicsList* fPhysicsList;
-    
-    G4UIdirectory*             fPhysDir;    
-    G4UIcmdWithAString*        fPListCmd;    
+    UKAL_simRunAction();
+    virtual ~UKAL_simRunAction();
+
+    virtual void BeginOfRunAction(const G4Run* run);
+    virtual void   EndOfRunAction(const G4Run* run);
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

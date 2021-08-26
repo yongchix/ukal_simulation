@@ -24,11 +24,11 @@
 // ********************************************************************
 //
 //
-/// \file B2aDetectorConstruction.hh
-/// \brief Definition of the B2aDetectorConstruction class
+/// \file UKAL_simDetectorConstruction.hh
+/// \brief Definition of the UKAL_simDetectorConstruction class
 
-#ifndef B2aDetectorConstruction_h
-#define B2aDetectorConstruction_h 1
+#ifndef UKAL_simDetectorConstruction_h
+#define UKAL_simDetectorConstruction_h 1
 
 #include "globals.hh"
 #include "G4VUserDetectorConstruction.hh"
@@ -40,20 +40,20 @@ class G4Material;
 class G4UserLimits;
 class G4GlobalMagFieldMessenger;
 
-class B2aDetectorMessenger;
+class UKAL_simDetectorMessenger;
 
-class UKALMaterial; 
+class UKAL_simMaterial; 
 #include "G4Tubs.hh"
 #include "G4ThreeVector.hh"
 
 /// Detector construction class to define materials, geometry
 /// and global uniform magnetic field.
 
-class B2aDetectorConstruction : public G4VUserDetectorConstruction
+class UKAL_simDetectorConstruction : public G4VUserDetectorConstruction
 {
 public:
-    B2aDetectorConstruction();
-    virtual ~B2aDetectorConstruction();
+    UKAL_simDetectorConstruction();
+    virtual ~UKAL_simDetectorConstruction();
 
 public:
     virtual G4VPhysicalVolume* Construct();
@@ -65,13 +65,13 @@ public:
     void SetMaxStep (G4double );
     void SetCheckOverlaps(G4bool );
 
-private:     // by Yongchi - for UKAL
-    G4bool fUseUKALSample; 
-    G4bool fUseUKALHPGe; 
-    G4bool fUseUKALBGO; 
-public:     // by Yongchi - for UKAL
-    void SetUseUKALSample(G4bool value) {fUseUKALSample = value; }
-    void SetUseUKALHPGe(G4bool value) {fUseUKALHPGe = value; }
+private:     // by Yongchi - for UKAL_sim
+    G4bool fUseUKAL_simSample; 
+    G4bool fUseUKAL_simHPGe; 
+    G4bool fUseUKAL_simBGO; 
+public:     // by Yongchi - for UKAL_sim
+    void SetUseUKAL_simSample(G4bool value) {fUseUKAL_simSample = value; }
+    void SetUseUKAL_simHPGe(G4bool value) {fUseUKAL_simHPGe = value; }
     void SetDetectorPhi(G4double value) {hpgePhi = value; }
     void SetDetectorPosRadius(G4double value) {hpgePosRadius = value; }
 
@@ -93,28 +93,28 @@ private:
     // by Yongchi 
     G4Material *sampleMater; 
     G4Material *hpgeMater; 
-    // by Yongchi - for UKAL
-    UKALMaterial *managerUKALMaterial; 
-    G4Tubs *solidUKALSample; 
-    G4LogicalVolume *logicUKALSample; 
-    G4VPhysicalVolume *physiUKALSample; 
-    G4double fUKALSample_zpos; 
-    G4ThreeVector fUKALSamplePos;
+    // by Yongchi - for UKAL_sim
+    UKAL_simMaterial *managerUKAL_simMaterial; 
+    G4Tubs *solidUKAL_simSample; 
+    G4LogicalVolume *logicUKAL_simSample; 
+    G4VPhysicalVolume *physiUKAL_simSample; 
+    G4double fUKAL_simSample_zpos; 
+    G4ThreeVector fUKAL_simSamplePos;
     // by Yongchi - add the hpge detector
     G4double hpgePhi; 
     G4double hpgePosRadius; 
-    G4Tubs *solidUKALHPGe; 
-    G4LogicalVolume *logicUKALHPGe; 
-    G4VPhysicalVolume *physiUKALHPGe; 
-    G4double fUKALHPGe_zpos; 
-    G4ThreeVector fUKALHPGePos;    
+    G4Tubs *solidUKAL_simHPGe; 
+    G4LogicalVolume *logicUKAL_simHPGe; 
+    G4VPhysicalVolume *physiUKAL_simHPGe; 
+    G4double fUKAL_simHPGe_zpos; 
+    G4ThreeVector fUKAL_simHPGePos;    
     //------------------------------------------------------------------------
     
 
 
     G4UserLimits* fStepLimit;            // pointer to user step limits
 
-    B2aDetectorMessenger*  fMessenger;   // messenger
+    UKAL_simDetectorMessenger*  fMessenger;   // messenger
 
     static G4ThreadLocal G4GlobalMagFieldMessenger*  fMagFieldMessenger; 
 	// magnetic field messenger

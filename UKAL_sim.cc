@@ -24,11 +24,11 @@
 // ********************************************************************
 //
 //
-/// \file exampleB2a.cc
+/// \file UKAL_sim.cc
 /// \brief Main program of the B2a example
 
-#include "B2aDetectorConstruction.hh"
-#include "B2ActionInitialization.hh"
+#include "UKAL_simDetectorConstruction.hh"
+#include "UKAL_simActionInitialization.hh"
 
 #ifdef G4MULTITHREADED
 #include "G4MTRunManager.hh"
@@ -45,9 +45,9 @@
 #include "G4VisExecutive.hh"
 #include "G4UIExecutive.hh"
 
-// added for UKAL
-#include "UKALAnalysisManager.hh"
-#include "UKALPhysicsList.hh"
+// added for UKAL_sim
+#include "UKAL_simAnalysisManager.hh"
+#include "UKAL_simPhysicsList.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
@@ -73,26 +73,26 @@ int main(int argc,char** argv)
 
 	// Set mandatory initialization classes
 	//
-	runManager->SetUserInitialization(new B2aDetectorConstruction());
+	runManager->SetUserInitialization(new UKAL_simDetectorConstruction());
 
 	// G4VModularPhysicsList* physicsList = new FTFP_BERT;
 	// physicsList->RegisterPhysics(new G4StepLimiterPhysics());
 	// runManager->SetUserInitialization(physicsList);
 	// by Yongchi: add physics list
-	runManager->SetUserInitialization(new UKALPhysicsList()); 
+	runManager->SetUserInitialization(new UKAL_simPhysicsList()); 
 
 
 	// //by Yongchi, the AnalysisManager is needed!
 	// //#ifdef ANALYSIS_USE
-	UKALAnalysisManager* analysis = UKALAnalysisManager::GetInstance();
+	UKAL_simAnalysisManager* analysis = UKAL_simAnalysisManager::GetInstance();
 	analysis->book();
-	// UKALAnalysisManager* analysis = UKALAnalysisManager::GetInstance();
+	// UKAL_simAnalysisManager* analysis = UKAL_simAnalysisManager::GetInstance();
 	// analysis->book(); 
 	// //#endif
 
 
 	// Set user action classes
-	runManager->SetUserInitialization(new B2ActionInitialization());
+	runManager->SetUserInitialization(new UKAL_simActionInitialization());
   
 	// Initialize visualization
 	//

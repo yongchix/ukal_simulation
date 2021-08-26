@@ -24,39 +24,45 @@
 // ********************************************************************
 //
 //
-/// \file B2RunAction.cc
-/// \brief Implementation of the B2RunAction class
+/// \file medical/electronScattering2/src/PhysicsListMessenger.cc
+/// \brief Implementation of the PhysicsListMessenger class
 
-#include "B2RunAction.hh"
+#include "G4UIdirectory.hh"
+#include "G4UIcmdWithAString.hh"
 
-#include "G4Run.hh"
-#include "G4RunManager.hh"
+#include "UKAL_simPhysicsListMessenger.hh"
+#include "UKAL_simPhysicsList.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2RunAction::B2RunAction()
- : G4UserRunAction()
-{ 
-  // set printing event number per each 100 events
-  G4RunManager::GetRunManager()->SetPrintProgress(20000);     
+UKAL_simPhysicsListMessenger::UKAL_simPhysicsListMessenger(UKAL_simPhysicsList* pPhys)
+: G4UImessenger(), fPhysicsList(pPhys),
+  fPListCmd(0)
+{
+    fPhysDir = new G4UIdirectory("/UKAL_sim_sim/phys/");
+    fPhysDir->SetGuidance("physics list commands");
+    
+    fPListCmd = new G4UIcmdWithAString("/UKAL_sim_sim/phys/addPhysics",this);
+    fPListCmd->SetGuidance("Add modula physics list.");
+    fPListCmd->SetParameterName("PList",false);
+    fPListCmd->AvailableForStates(G4State_PreInit);
+    fPListCmd->SetToBeBroadcasted(false);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2RunAction::~B2RunAction()
-{}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void B2RunAction::BeginOfRunAction(const G4Run*)
-{ 
-  //inform the runManager to save random number seed
-  G4RunManager::GetRunManager()->SetRandomNumberStore(false);
+UKAL_simPhysicsListMessenger::~UKAL_simPhysicsListMessenger()
+{
+    delete fPListCmd;
+    delete fPhysDir;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2RunAction::EndOfRunAction(const G4Run* )
-{}
+void UKAL_simPhysicsListMessenger::SetNewValue(G4UIcommand* command, G4String newValue)
+{
+    if( command == fPListCmd )
+    { fPhysicsList->AddPhysicsList(newValue);}
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

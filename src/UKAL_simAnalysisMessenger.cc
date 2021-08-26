@@ -1,35 +1,35 @@
-#include "UKALAnalysisMessenger.hh"
-#include "UKALAnalysisManager.hh"
-#include "B2EventAction.hh"
+#include "UKAL_simAnalysisMessenger.hh"
+#include "UKAL_simAnalysisManager.hh"
+#include "UKAL_simEventAction.hh"
 
 #include "globals.hh"
 #include "G4UIdirectory.hh"
 #include "G4UIcmdWithAnInteger.hh"
 #include "G4UIcmdWithAString.hh"
 
-UKALAnalysisMessenger::UKALAnalysisMessenger(UKALAnalysisManager* man) : analysisManager(man) {
-    analysisDir = new G4UIdirectory("/UKAL/analysis/"); 
+UKAL_simAnalysisMessenger::UKAL_simAnalysisMessenger(UKAL_simAnalysisManager* man) : analysisManager(man) {
+    analysisDir = new G4UIdirectory("/UKAL_sim/analysis/"); 
     analysisDir->SetGuidance("output control"); 
 
     // G4cout << "haha " << G4endl; 
 
-    filenameCmd = new G4UIcmdWithAString("/UKAL/analysis/filename", this); 
+    filenameCmd = new G4UIcmdWithAString("/UKAL_sim/analysis/filename", this); 
     filenameCmd->SetGuidance("Analysis file name");
     filenameCmd->SetParameterName("choice",false);
     filenameCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-    dirnameCmd = new G4UIcmdWithAString("/UKAL/analysis/dirname", this); 
+    dirnameCmd = new G4UIcmdWithAString("/UKAL_sim/analysis/dirname", this); 
     dirnameCmd->SetGuidance("Directory for output files");
     dirnameCmd->SetParameterName("dirname",false);
     dirnameCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 }
 
-UKALAnalysisMessenger::~UKALAnalysisMessenger() {
+UKAL_simAnalysisMessenger::~UKAL_simAnalysisMessenger() {
     delete filenameCmd; 
     delete dirnameCmd; 
 }
 
-void UKALAnalysisMessenger::SetNewValue(G4UIcommand* command, G4String newValue) {
+void UKAL_simAnalysisMessenger::SetNewValue(G4UIcommand* command, G4String newValue) {
 
     //G4cout << " >>> Now trying to set new names for output... <<<" << G4endl; 
 

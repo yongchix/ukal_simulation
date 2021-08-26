@@ -24,57 +24,49 @@
 // ********************************************************************
 //
 //
-/// \file B2aDetectorMessenger.hh
-/// \brief Definition of the B2aDetectorMessenger class
+/// \file UKAL_simTrackerSD.hh
+/// \brief Definition of the UKAL_simTrackerSD class
 
-#ifndef B2aDetectorMessenger_h
-#define B2aDetectorMessenger_h 1
+#ifndef UKAL_simTrackerSD_h
+#define UKAL_simTrackerSD_h 1
 
-#include "globals.hh"
-#include "G4UImessenger.hh"
+#include "G4VSensitiveDetector.hh"
 
-class B2aDetectorConstruction;
-class G4UIdirectory;
-class G4UIcmdWithAString;
-class G4UIcmdWithADoubleAndUnit;
-class G4UIcmdWithABool; 
+#include "UKAL_simTrackerHit.hh"
+
+#include <vector>
+
+class G4Step;
+class G4HCofThisEvent;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-/// Messenger class that defines commands for B2aDetectorConstruction.
+/// B2Tracker sensitive detector class
 ///
-/// It implements commands:
-/// - /B2/det/setTargetMaterial name
-/// - /B2/det/setChamberMaterial name
-/// - /B2/det/stepMax value unit
+/// The hits are accounted in hits in ProcessHits() function which is called
+/// by Geant4 kernel at each step. A hit is created with each step with non zero 
+/// energy deposit.
 
-class B2aDetectorMessenger: public G4UImessenger
+class UKAL_simTrackerSD : public G4VSensitiveDetector
 {
 public:
-    B2aDetectorMessenger(B2aDetectorConstruction* );
-    virtual ~B2aDetectorMessenger();
-    
-    virtual void SetNewValue(G4UIcommand*, G4String);
-    
+    UKAL_simTrackerSD(const G4String& name, 
+                const G4String& hitsCollectionName);
+    virtual ~UKAL_simTrackerSD();
+  
+    // methods from base class
+    virtual void   Initialize(G4HCofThisEvent* hitCollection);
+    virtual G4bool ProcessHits(G4Step* step, G4TouchableHistory* history);
+    virtual void   EndOfEvent(G4HCofThisEvent* hitCollection);
+    //
+    // void clear(); 
+    // void DrawAll(); 
+    // void PrintAll(); 
+
 private:
-    B2aDetectorConstruction*  fDetectorConstruction;
-
-    G4UIdirectory*           fB2Directory;
-    G4UIdirectory*           fDetDirectory;
-
-    G4UIcmdWithAString*      fTargMatCmd;
-    G4UIcmdWithAString*      fChamMatCmd;
-
-    G4UIcmdWithADoubleAndUnit* fStepMaxCmd;
-
-    // by Yongchi - for UKAL
-    // add or remove detectors
-    G4UIcmdWithABool*          useUKALSampleCmd; 
-    G4UIcmdWithABool*          useUKALHPGeCmd; 
-    G4UIcmdWithABool*          useUKALBGOCmd;
-    // set parameters of detectors
-    G4UIcmdWithADoubleAndUnit* setUKALHPGeAngleCmd; 
-    G4UIcmdWithADoubleAndUnit* setUKALHPGePosRadiusCmd; 
+    UKAL_simTrackerHitsCollection* fHitsCollection;
+    // by Yongchi - refer to e16032 simulation
+    G4int HCID; 
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

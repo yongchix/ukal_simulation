@@ -24,10 +24,10 @@
 // ********************************************************************
 //
 //
-/// \file B2EventAction.cc
-/// \brief Implementation of the B2EventAction class
+/// \file UKAL_simEventAction.cc
+/// \brief Implementation of the UKAL_simEventAction class
 
-#include "B2EventAction.hh"
+#include "UKAL_simEventAction.hh"
 
 #include "G4Event.hh"
 #include "G4EventManager.hh"
@@ -37,7 +37,7 @@
 #include "G4SDManager.hh"
 #include "G4SystemOfUnits.hh"
 
-#include "B2TrackerHit.hh"
+#include "UKAL_simTrackerHit.hh"
 
 #include "TROOT.h"
 #include "TApplication.h"
@@ -52,32 +52,32 @@
 #include "TTree.h"
 #include "TRandom.h"
 
-#include "UKALAnalysisManager.hh"
+#include "UKAL_simAnalysisManager.hh"
 
 using namespace std; 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2EventAction::B2EventAction()
+UKAL_simEventAction::UKAL_simEventAction()
 	: G4UserEventAction()
 {
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2EventAction::~B2EventAction()
+UKAL_simEventAction::~UKAL_simEventAction()
 {
 //	delete f1Res; 
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2EventAction::BeginOfEventAction(const G4Event*)
+void UKAL_simEventAction::BeginOfEventAction(const G4Event*)
 {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2EventAction::EndOfEventAction(const G4Event* event)
+void UKAL_simEventAction::EndOfEventAction(const G4Event* event)
 {
 	// get number of stored trajectories
 
@@ -115,15 +115,15 @@ void B2EventAction::EndOfEventAction(const G4Event* event)
 
 
 	G4HCofThisEvent *HCE = event->GetHCofThisEvent(); 
-	// B2TrackerHitsCollection *DHTracker = 0; 
-	B2TrackerHitsCollection *DHCHPGe = 0; 
-	B2TrackerHitsCollection *DHCSample = 0; 
-	B2TrackerHitsCollection *DHCBGO = 0; 
+	// UKAL_simTrackerHitsCollection *DHTracker = 0; 
+	UKAL_simTrackerHitsCollection *DHCHPGe = 0; 
+	UKAL_simTrackerHitsCollection *DHCSample = 0; 
+	UKAL_simTrackerHitsCollection *DHCBGO = 0; 
 
 	if(HCE) {
-		// DHTracker = (B2TrackerHitsCollection*)HCE->GetHC(trackerID); 
-		DHCSample = (B2TrackerHitsCollection*)HCE->GetHC(sampleID); 
-		DHCHPGe = (B2TrackerHitsCollection*)HCE->GetHC(hpgeID); 
+		// DHTracker = (UKAL_simTrackerHitsCollection*)HCE->GetHC(trackerID); 
+		DHCSample = (UKAL_simTrackerHitsCollection*)HCE->GetHC(sampleID); 
+		DHCHPGe = (UKAL_simTrackerHitsCollection*)HCE->GetHC(hpgeID); 
 	}
 
 	if(DHCSample) {
@@ -141,7 +141,7 @@ void B2EventAction::EndOfEventAction(const G4Event* event)
 		//energyTotal = gRandom->Gaus(energyTotal, 0.01*energyTotal/2.35); 
 		if(energyTotal > 0)
 			energyTotal = gRandom->Gaus(energyTotal, energyTotal/100.0/2.35);
-		UKALAnalysisManager *analysis = UKALAnalysisManager::GetInstance(); 
+		UKAL_simAnalysisManager *analysis = UKAL_simAnalysisManager::GetInstance(); 
 		if(energyTotal > 0) analysis->h1Sample->Fill(energyTotal); 
 	}
 
@@ -160,7 +160,7 @@ void B2EventAction::EndOfEventAction(const G4Event* event)
 
 		// add resolution to detectors
 		if(energyTotal > 0) {
-			UKALAnalysisManager *analysis = UKALAnalysisManager::GetInstance();
+			UKAL_simAnalysisManager *analysis = UKAL_simAnalysisManager::GetInstance();
 			if(energyTotal > 0) {
 				// energyTotal = gRandom->Gaus(energyTotal, analysis->f1Res->Eval(energyTotal)); 
 				energyTotal = gRandom->Gaus(energyTotal,

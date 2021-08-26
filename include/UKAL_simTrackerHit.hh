@@ -24,11 +24,11 @@
 // ********************************************************************
 //
 //
-/// \file B2TrackerHit.hh
-/// \brief Definition of the B2TrackerHit class
+/// \file UKAL_simTrackerHit.hh
+/// \brief Definition of the UKAL_simTrackerHit class
 
-#ifndef B2TrackerHit_h
-#define B2TrackerHit_h 1
+#ifndef UKAL_simTrackerHit_h
+#define UKAL_simTrackerHit_h 1
 
 #include "G4VHit.hh"
 #include "G4THitsCollection.hh"
@@ -42,16 +42,16 @@
 /// and position of charged particles in a selected volume:
 /// - fTrackID, fChamberNB, fEdep, fPos
 
-class B2TrackerHit : public G4VHit
+class UKAL_simTrackerHit : public G4VHit
 {
 public:
-    B2TrackerHit();
-    B2TrackerHit(const B2TrackerHit&);
-    virtual ~B2TrackerHit();
+    UKAL_simTrackerHit();
+    UKAL_simTrackerHit(const UKAL_simTrackerHit&);
+    virtual ~UKAL_simTrackerHit();
 
     // operators
-    const B2TrackerHit& operator=(const B2TrackerHit&);
-    G4bool operator==(const B2TrackerHit&) const;
+    const UKAL_simTrackerHit& operator=(const UKAL_simTrackerHit&);
+    G4bool operator==(const UKAL_simTrackerHit&) const;
 
     inline void* operator new(size_t);
     inline void  operator delete(void*);
@@ -128,7 +128,7 @@ private:
 	G4ThreeVector fPos;
 
 private: 
-    // by Yongchi - for UKAL
+    // by Yongchi - for UKAL_sim
     G4double edep;
     G4ThreeVector pos;
 	G4double gtime;
@@ -154,24 +154,24 @@ private:
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-typedef G4THitsCollection<B2TrackerHit> B2TrackerHitsCollection;
+typedef G4THitsCollection<UKAL_simTrackerHit> UKAL_simTrackerHitsCollection;
 
-extern G4ThreadLocal G4Allocator<B2TrackerHit>* B2TrackerHitAllocator;
+extern G4ThreadLocal G4Allocator<UKAL_simTrackerHit>* UKAL_simTrackerHitAllocator;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-inline void* B2TrackerHit::operator new(size_t)
+inline void* UKAL_simTrackerHit::operator new(size_t)
 {
-	if(!B2TrackerHitAllocator)
-		B2TrackerHitAllocator = new G4Allocator<B2TrackerHit>;
-	return (void *) B2TrackerHitAllocator->MallocSingle();
+	if(!UKAL_simTrackerHitAllocator)
+		UKAL_simTrackerHitAllocator = new G4Allocator<UKAL_simTrackerHit>;
+	return (void *) UKAL_simTrackerHitAllocator->MallocSingle();
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-inline void B2TrackerHit::operator delete(void *hit)
+inline void UKAL_simTrackerHit::operator delete(void *hit)
 {
-	B2TrackerHitAllocator->FreeSingle((B2TrackerHit*) hit);
+	UKAL_simTrackerHitAllocator->FreeSingle((UKAL_simTrackerHit*) hit);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

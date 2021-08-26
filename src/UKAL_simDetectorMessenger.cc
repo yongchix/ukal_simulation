@@ -24,11 +24,11 @@
 // ********************************************************************
 //
 // 
-/// \file B2aDetectorMessenger.cc
-/// \brief Implementation of the B2aDetectorMessenger class
+/// \file UKAL_simDetectorMessenger.cc
+/// \brief Implementation of the UKAL_simDetectorMessenger class
 
-#include "B2aDetectorMessenger.hh"
-#include "B2aDetectorConstruction.hh"
+#include "UKAL_simDetectorMessenger.hh"
+#include "UKAL_simDetectorConstruction.hh"
 
 #include "G4UIdirectory.hh"
 #include "G4UIcmdWithAString.hh"
@@ -39,7 +39,7 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2aDetectorMessenger::B2aDetectorMessenger(B2aDetectorConstruction* Det)
+UKAL_simDetectorMessenger::UKAL_simDetectorMessenger(UKAL_simDetectorConstruction* Det)
 	: G4UImessenger(),
 	  fDetectorConstruction(Det)
 {
@@ -65,36 +65,36 @@ B2aDetectorMessenger::B2aDetectorMessenger(B2aDetectorConstruction* Det)
 	fStepMaxCmd->SetUnitCategory("Length");
 	fStepMaxCmd->AvailableForStates(G4State_Idle);
 
-	// by Yongchi - for UKAL
+	// by Yongchi - for UKAL_sim
 	// add or remove detectors
-	useUKALSampleCmd = new G4UIcmdWithABool("/UKAL_sim/det/UseUKALSample", this); 
-	useUKALSampleCmd->SetGuidance("activate UKAL Scattering Sample"); 
-	useUKALSampleCmd->SetParameterName("choice", false); 
-	useUKALSampleCmd->AvailableForStates(G4State_PreInit); 
+	useUKAL_simSampleCmd = new G4UIcmdWithABool("/UKAL_sim_sim/det/UseUKAL_simSample", this); 
+	useUKAL_simSampleCmd->SetGuidance("activate UKAL_sim Scattering Sample"); 
+	useUKAL_simSampleCmd->SetParameterName("choice", false); 
+	useUKAL_simSampleCmd->AvailableForStates(G4State_PreInit); 
 	// HPGe
-	useUKALHPGeCmd = new G4UIcmdWithABool("/UKAL_sim/det/UseUKALHPGe", this); 
-	useUKALHPGeCmd->SetGuidance("activate HPGe"); 
-	useUKALHPGeCmd->SetParameterName("choice", false); 
-	useUKALHPGeCmd->AvailableForStates(G4State_PreInit); 
+	useUKAL_simHPGeCmd = new G4UIcmdWithABool("/UKAL_sim_sim/det/UseUKAL_simHPGe", this); 
+	useUKAL_simHPGeCmd->SetGuidance("activate HPGe"); 
+	useUKAL_simHPGeCmd->SetParameterName("choice", false); 
+	useUKAL_simHPGeCmd->AvailableForStates(G4State_PreInit); 
 	//
-	setUKALHPGeAngleCmd = new G4UIcmdWithADoubleAndUnit("/UKAL_sim/det/SetUKALHPGeAngle", this); 
-	setUKALHPGeAngleCmd->SetGuidance("rotate the HPGe"); 
-	setUKALHPGeAngleCmd->SetParameterName("angle", false); 
-	// setUKALHPGeAngleCmd->SetUnitCategory("Length"); 
-	setUKALHPGeAngleCmd->SetDefaultUnit("deg"); 
-	setUKALHPGeAngleCmd->AvailableForStates(G4State_PreInit, G4State_Idle); 
+	setUKAL_simHPGeAngleCmd = new G4UIcmdWithADoubleAndUnit("/UKAL_sim_sim/det/SetUKAL_simHPGeAngle", this); 
+	setUKAL_simHPGeAngleCmd->SetGuidance("rotate the HPGe"); 
+	setUKAL_simHPGeAngleCmd->SetParameterName("angle", false); 
+	// setUKAL_simHPGeAngleCmd->SetUnitCategory("Length"); 
+	setUKAL_simHPGeAngleCmd->SetDefaultUnit("deg"); 
+	setUKAL_simHPGeAngleCmd->AvailableForStates(G4State_PreInit, G4State_Idle); 
 	// 
-	setUKALHPGePosRadiusCmd = new G4UIcmdWithADoubleAndUnit("/UKAL_sim/det/SetUKALHPGePosRadius", this); 
-	setUKALHPGePosRadiusCmd->SetGuidance("Move HPGe forward/backward"); 
-	setUKALHPGePosRadiusCmd->SetParameterName("length", false); 
-	// setUKALHPGePosRadiusCmd->SetUnitCategory("Length"); 
-	setUKALHPGePosRadiusCmd->SetDefaultUnit("mm"); 
-	setUKALHPGePosRadiusCmd->AvailableForStates(G4State_PreInit, G4State_Idle); 
+	setUKAL_simHPGePosRadiusCmd = new G4UIcmdWithADoubleAndUnit("/UKAL_sim_sim/det/SetUKAL_simHPGePosRadius", this); 
+	setUKAL_simHPGePosRadiusCmd->SetGuidance("Move HPGe forward/backward"); 
+	setUKAL_simHPGePosRadiusCmd->SetParameterName("length", false); 
+	// setUKAL_simHPGePosRadiusCmd->SetUnitCategory("Length"); 
+	setUKAL_simHPGePosRadiusCmd->SetDefaultUnit("mm"); 
+	setUKAL_simHPGePosRadiusCmd->AvailableForStates(G4State_PreInit, G4State_Idle); 
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2aDetectorMessenger::~B2aDetectorMessenger()
+UKAL_simDetectorMessenger::~UKAL_simDetectorMessenger()
 {
 	delete fTargMatCmd;
 	delete fChamMatCmd;
@@ -102,15 +102,15 @@ B2aDetectorMessenger::~B2aDetectorMessenger()
 	delete fB2Directory;
 	delete fDetDirectory;
 
-	delete useUKALSampleCmd; 
-	delete useUKALHPGeCmd; 
-	delete setUKALHPGePosRadiusCmd; 
-	delete setUKALHPGeAngleCmd; 
+	delete useUKAL_simSampleCmd; 
+	delete useUKAL_simHPGeCmd; 
+	delete setUKAL_simHPGePosRadiusCmd; 
+	delete setUKAL_simHPGeAngleCmd; 
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2aDetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
+void UKAL_simDetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 {
 	// if( command == fTargMatCmd )
 	// 	{ fDetectorConstruction->SetTargetMaterial(newValue);}
@@ -123,21 +123,21 @@ void B2aDetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 			->SetMaxStep(fStepMaxCmd->GetNewDoubleValue(newValue));
 	}   
 
-	// by Yongchi - for UKAL
+	// by Yongchi - for UKAL_sim
 	// add or remove detectors
-	if(command == useUKALSampleCmd) {
-		fDetectorConstruction->SetUseUKALSample(useUKALSampleCmd->GetNewBoolValue(newValue)); 
+	if(command == useUKAL_simSampleCmd) {
+		fDetectorConstruction->SetUseUKAL_simSample(useUKAL_simSampleCmd->GetNewBoolValue(newValue)); 
 	}
-	if(command == useUKALHPGeCmd) {
-		fDetectorConstruction->SetUseUKALHPGe(useUKALHPGeCmd->GetNewBoolValue(newValue)); 
+	if(command == useUKAL_simHPGeCmd) {
+		fDetectorConstruction->SetUseUKAL_simHPGe(useUKAL_simHPGeCmd->GetNewBoolValue(newValue)); 
 	}
 
 	// change detector positions
-	if(command == setUKALHPGeAngleCmd) {
-		fDetectorConstruction->SetDetectorPhi(360*degree - setUKALHPGeAngleCmd->GetNewDoubleValue(newValue)); 
+	if(command == setUKAL_simHPGeAngleCmd) {
+		fDetectorConstruction->SetDetectorPhi(360*degree - setUKAL_simHPGeAngleCmd->GetNewDoubleValue(newValue)); 
 	}
-	if(command == setUKALHPGePosRadiusCmd) {
-		fDetectorConstruction->SetDetectorPosRadius(setUKALHPGePosRadiusCmd->GetNewDoubleValue(newValue)); 
+	if(command == setUKAL_simHPGePosRadiusCmd) {
+		fDetectorConstruction->SetDetectorPosRadius(setUKAL_simHPGePosRadiusCmd->GetNewDoubleValue(newValue)); 
 	}
 }
 

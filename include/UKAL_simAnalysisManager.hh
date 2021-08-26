@@ -1,5 +1,5 @@
-#ifndef UKAL_ANALYSIS_MANAGER_HH
-#define UKAL_ANALYSIS_MANAGER_HH
+#ifndef UKAL_sim_ANALYSIS_MANAGER_HH
+#define UKAL_sim_ANALYSIS_MANAGER_HH
 
 #include "globals.hh"
 
@@ -9,16 +9,16 @@
 #include "TH2D.h"
 #include "TF1.h"
 
-class UKALAnalysisMessenger; 
+class UKAL_simAnalysisMessenger; 
 
-class UKALAnalysisManager {
+class UKAL_simAnalysisManager {
     private: // why private???
-        UKALAnalysisManager(); 
-        UKALAnalysisMessenger *messenger; 
+        UKAL_simAnalysisManager(); 
+        UKAL_simAnalysisMessenger *messenger; 
 
     public: 
-        ~UKALAnalysisManager(); 
-        static UKALAnalysisManager* GetInstance(); 
+        ~UKAL_simAnalysisManager(); 
+        static UKAL_simAnalysisManager* GetInstance(); 
         void book(); 
 
     // create the root files and histograms
@@ -29,7 +29,7 @@ class UKALAnalysisManager {
     void Save(); 
 
     private: 
-        static UKALAnalysisManager* instance; 
+        static UKAL_simAnalysisManager* instance; 
     public: 
         TFile *outroot; 
         TH1D *h1Test; 

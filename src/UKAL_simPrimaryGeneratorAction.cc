@@ -24,10 +24,10 @@
 // ********************************************************************
 //
 //
-/// \file B2PrimaryGeneratorAction.cc
-/// \brief Implementation of the B2PrimaryGeneratorAction class
+/// \file UKAL_simPrimaryGeneratorAction.cc
+/// \brief Implementation of the UKAL_simPrimaryGeneratorAction class
 
-#include "B2PrimaryGeneratorAction.hh"
+#include "UKAL_simPrimaryGeneratorAction.hh"
 
 #include "G4LogicalVolumeStore.hh"
 #include "G4LogicalVolume.hh"
@@ -40,11 +40,11 @@
 
 #include "Randomize.hh"
 
-#include "UKALAnalysisManager.hh"
+#include "UKAL_simAnalysisManager.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2PrimaryGeneratorAction::B2PrimaryGeneratorAction()
+UKAL_simPrimaryGeneratorAction::UKAL_simPrimaryGeneratorAction()
  : G4VUserPrimaryGeneratorAction()
 {
   G4int nofParticles = 1;
@@ -62,14 +62,14 @@ B2PrimaryGeneratorAction::B2PrimaryGeneratorAction()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2PrimaryGeneratorAction::~B2PrimaryGeneratorAction()
+UKAL_simPrimaryGeneratorAction::~UKAL_simPrimaryGeneratorAction()
 {
   delete fParticleGun;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
+void UKAL_simPrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
 {
   // This function is called at the begining of event
 
@@ -96,7 +96,7 @@ void B2PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   fParticleGun->GeneratePrimaryVertex(anEvent);
   // G4cout << "particle energy = " << fParticleGun->GetParticleEnergy()/keV << G4endl; 
 
-  // UKALAnalysisManager *analysis = UKALAnalysisManager::GetInstance(); 
+  // UKAL_simAnalysisManager *analysis = UKAL_simAnalysisManager::GetInstance(); 
   // analysis->FillTH1D(512); 
 }
 

@@ -24,44 +24,57 @@
 // ********************************************************************
 //
 //
-/// \file B2PrimaryGeneratorAction.hh
-/// \brief Definition of the B2PrimaryGeneratorAction class
+/// \file UKAL_simDetectorMessenger.hh
+/// \brief Definition of the UKAL_simDetectorMessenger class
 
-#ifndef B2PrimaryGeneratorAction_h
-#define B2PrimaryGeneratorAction_h 1
+#ifndef UKAL_simDetectorMessenger_h
+#define UKAL_simDetectorMessenger_h 1
 
-#include "G4VUserPrimaryGeneratorAction.hh"
-#include "G4GeneralParticleSource.hh"
 #include "globals.hh"
+#include "G4UImessenger.hh"
 
-class G4ParticleGun;
-class G4Event;
+class UKAL_simDetectorConstruction;
+class G4UIdirectory;
+class G4UIcmdWithAString;
+class G4UIcmdWithADoubleAndUnit;
+class G4UIcmdWithABool; 
 
-/// The primary generator action class with particle gum.
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+/// Messenger class that defines commands for UKAL_simDetectorConstruction.
 ///
-/// It defines a single particle which hits the Tracker 
-/// perpendicular to the input face. The type of the particle
-/// can be changed via the G4 build-in commands of G4ParticleGun class 
-/// (see the macros provided with this example).
+/// It implements commands:
+/// - /B2/det/setTargetMaterial name
+/// - /B2/det/setChamberMaterial name
+/// - /B2/det/stepMax value unit
 
-class B2PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
+class UKAL_simDetectorMessenger: public G4UImessenger
 {
-  public:
-    B2PrimaryGeneratorAction();    
-    virtual ~B2PrimaryGeneratorAction();
+public:
+    UKAL_simDetectorMessenger(UKAL_simDetectorConstruction* );
+    virtual ~UKAL_simDetectorMessenger();
+    
+    virtual void SetNewValue(G4UIcommand*, G4String);
+    
+private:
+    UKAL_simDetectorConstruction*  fDetectorConstruction;
 
-    virtual void GeneratePrimaries(G4Event* );
+    G4UIdirectory*           fB2Directory;
+    G4UIdirectory*           fDetDirectory;
 
-    // G4ParticleGun* GetParticleGun() {return fParticleGun;}
-    G4GeneralParticleSource* GetParticleGun() {return fParticleGun;}
-  
-    // Set methods
-    void SetRandomFlag(G4bool );
+    G4UIcmdWithAString*      fTargMatCmd;
+    G4UIcmdWithAString*      fChamMatCmd;
 
-  private:
-    // G4ParticleGun*          fParticleGun; // G4 particle gun
-    G4GeneralParticleSource *fParticleGun; 
+    G4UIcmdWithADoubleAndUnit* fStepMaxCmd;
 
+    // by Yongchi - for UKAL_sim
+    // add or remove detectors
+    G4UIcmdWithABool*          useUKAL_simSampleCmd; 
+    G4UIcmdWithABool*          useUKAL_simHPGeCmd; 
+    G4UIcmdWithABool*          useUKAL_simBGOCmd;
+    // set parameters of detectors
+    G4UIcmdWithADoubleAndUnit* setUKAL_simHPGeAngleCmd; 
+    G4UIcmdWithADoubleAndUnit* setUKAL_simHPGePosRadiusCmd; 
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

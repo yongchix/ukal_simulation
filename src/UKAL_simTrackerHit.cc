@@ -24,10 +24,10 @@
 // ********************************************************************
 //
 //
-/// \file B2TrackerHit.cc
-/// \brief Implementation of the B2TrackerHit class
+/// \file UKAL_simTrackerHit.cc
+/// \brief Implementation of the UKAL_simTrackerHit class
 
-#include "B2TrackerHit.hh"
+#include "UKAL_simTrackerHit.hh"
 #include "G4UnitsTable.hh"
 #include "G4VVisManager.hh"
 #include "G4Circle.hh"
@@ -36,11 +36,11 @@
 
 #include <iomanip>
 
-G4ThreadLocal G4Allocator<B2TrackerHit>* B2TrackerHitAllocator=0;
+G4ThreadLocal G4Allocator<UKAL_simTrackerHit>* UKAL_simTrackerHitAllocator=0;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2TrackerHit::B2TrackerHit()
+UKAL_simTrackerHit::UKAL_simTrackerHit()
 	: G4VHit(),
 	  fTrackID(-1),
 	  fChamberNb(-1),
@@ -51,11 +51,11 @@ B2TrackerHit::B2TrackerHit()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2TrackerHit::~B2TrackerHit() {}
+UKAL_simTrackerHit::~UKAL_simTrackerHit() {}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-B2TrackerHit::B2TrackerHit(const B2TrackerHit& right)
+UKAL_simTrackerHit::UKAL_simTrackerHit(const UKAL_simTrackerHit& right)
 	: G4VHit()
 {
 	fTrackID   = right.fTrackID;
@@ -91,7 +91,7 @@ B2TrackerHit::B2TrackerHit(const B2TrackerHit& right)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-const B2TrackerHit& B2TrackerHit::operator=(const B2TrackerHit& right)
+const UKAL_simTrackerHit& UKAL_simTrackerHit::operator=(const UKAL_simTrackerHit& right)
 {
 	fTrackID   = right.fTrackID;
 	fChamberNb = right.fChamberNb;
@@ -127,14 +127,14 @@ const B2TrackerHit& B2TrackerHit::operator=(const B2TrackerHit& right)
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-G4bool B2TrackerHit::operator==(const B2TrackerHit& right) const
+G4bool UKAL_simTrackerHit::operator==(const UKAL_simTrackerHit& right) const
 {
 	return ( this == &right ) ? true : false;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2TrackerHit::Draw()
+void UKAL_simTrackerHit::Draw()
 {
 	G4VVisManager* pVVisManager = G4VVisManager::GetConcreteInstance();
 	if(pVVisManager)
@@ -151,7 +151,7 @@ void B2TrackerHit::Draw()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2TrackerHit::Print()
+void UKAL_simTrackerHit::Print()
 {
 // 	G4cout
 // 		<< "  trackID: " << fTrackID << " chamberNb: " << fChamberNb

@@ -27,8 +27,8 @@
 /// \file medical/electronScattering2/src/PhysicsList.cc
 /// \brief Implementation of the PhysicsList class
 
-#include "UKALPhysicsList.hh"
-#include "UKALPhysicsListMessenger.hh"
+#include "UKAL_simPhysicsList.hh"
+#include "UKAL_simPhysicsListMessenger.hh"
 
 #include "G4EmStandardPhysics.hh"
 #include "G4EmStandardPhysics_option1.hh"
@@ -121,10 +121,10 @@
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-UKALPhysicsList::UKALPhysicsList() 
+UKAL_simPhysicsList::UKAL_simPhysicsList() 
 : G4VModularPhysicsList(), fMessenger(0), fEmPhysicsList(0)
 {
-    fMessenger = new UKALPhysicsListMessenger(this);
+    fMessenger = new UKAL_simPhysicsListMessenger(this);
     
     // // EM physics
     // fEmName = G4String("emstandard_opt4");
@@ -134,7 +134,7 @@ UKALPhysicsList::UKALPhysicsList()
     //            << fEmName << ">" << G4endl;
     // }
 
-    // by Yongchi - for UKAL 
+    // by Yongchi - for UKAL_sim 
     // below are assumed as the default physics
     particleList = new G4DecayPhysics(); 
     raddecayList = new G4RadioactiveDecayPhysics(); 
@@ -149,10 +149,10 @@ UKALPhysicsList::UKALPhysicsList()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-UKALPhysicsList::~UKALPhysicsList()
+UKAL_simPhysicsList::~UKAL_simPhysicsList()
 {
     delete fEmPhysicsList;
-    // by Yongchi - for UKAL
+    // by Yongchi - for UKAL_sim
     delete particleList; 
     delete raddecayList; 
     if(hadPhysicsList) delete hadPhysicsList; 
@@ -168,7 +168,7 @@ UKALPhysicsList::~UKALPhysicsList()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void UKALPhysicsList::ConstructParticle()
+void UKAL_simPhysicsList::ConstructParticle()
 {
     // pseudo-particles
     G4Geantino::GeantinoDefinition();
@@ -215,7 +215,7 @@ void UKALPhysicsList::ConstructParticle()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void UKALPhysicsList::ConstructProcess()
+void UKAL_simPhysicsList::ConstructProcess()
 {
     AddTransportation();
     // EM
@@ -260,7 +260,7 @@ void UKALPhysicsList::ConstructProcess()
 
 // #include "G4Decay.hh"
 
-// void UKALPhysicsList::AddDecay()
+// void UKAL_simPhysicsList::AddDecay()
 // {
 //     // Add Decay Process
     
@@ -309,10 +309,10 @@ void UKALPhysicsList::ConstructProcess()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void UKALPhysicsList::AddPhysicsList(const G4String& name)
+void UKAL_simPhysicsList::AddPhysicsList(const G4String& name)
 {
     if (verboseLevel>-1) {
-        G4cout << "UKALPhysicsList::AddPhysicsList: <" << name << ">" << G4endl;
+        G4cout << "UKAL_simPhysicsList::AddPhysicsList: <" << name << ">" << G4endl;
     }
     
     // if (name == fEmName) return;
@@ -378,7 +378,7 @@ void UKALPhysicsList::AddPhysicsList(const G4String& name)
     //     fEmPhysicsList = new G4EmPenelopePhysics(1);
 
     // } 
-    // below migrated from void UKAL_simPhysicsList::SelectPhysicsList(const G4String& name)
+    // below migrated from void UKAL_sim_simPhysicsList::SelectPhysicsList(const G4String& name)
     //else 
     if(name == "Hadron" && !hadPhysicsList) {
         ; // do nothing as it was
@@ -419,7 +419,7 @@ void UKALPhysicsList::AddPhysicsList(const G4String& name)
     }
 }
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void UKALPhysicsList::AddExtraBuilders(G4bool flagHP) {
+void UKAL_simPhysicsList::AddExtraBuilders(G4bool flagHP) {
     nhadcomp = 5; // used to be 5
     hadronPhys.push_back( new G4EmExtraPhysics("extra EM"));
     // hadronPhys.push_back( new G4HadronElasticPhysics("elastic",verboseLevel,
@@ -434,13 +434,13 @@ void UKALPhysicsList::AddExtraBuilders(G4bool flagHP) {
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void UKALPhysicsList::SetCuts() {
+void UKAL_simPhysicsList::SetCuts() {
     SetCutValue(cutForGamma, "gamma"); 
     SetCutValue(cutForElectron, "e-");
     SetCutValue(cutForPositron, "e+");
     G4cout << "world cuts are set" << G4endl;
 
-    // G4Region* region = G4RegionStore::GetInstance()->GetRegion("UKALHPGe"); 
+    // G4Region* region = G4RegionStore::GetInstance()->GetRegion("UKAL_simHPGe"); 
     // if( !DetectorCuts ) SetDetectorCut(cutForElectron);
     // region->SetProductionCuts(DetectorCuts);
     // G4cout << "Detector cuts are set" << G4endl;
@@ -449,25 +449,25 @@ void UKALPhysicsList::SetCuts() {
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void UKALPhysicsList::SetCutForGamma(G4double cut) {
+void UKAL_simPhysicsList::SetCutForGamma(G4double cut) {
     cutForGamma = cut;
     SetParticleCuts(cutForGamma, G4Gamma::Gamma());
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void UKALPhysicsList::SetCutForElectron(G4double cut) {
+void UKAL_simPhysicsList::SetCutForElectron(G4double cut) {
     cutForElectron = cut;
     SetParticleCuts(cutForElectron, G4Electron::Electron());
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void UKALPhysicsList::SetCutForPositron(G4double cut) {
+void UKAL_simPhysicsList::SetCutForPositron(G4double cut) {
     cutForPositron = cut;
     SetParticleCuts(cutForPositron, G4Positron::Positron());
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void UKALPhysicsList::SetTargetCut(G4double cut) {
+void UKAL_simPhysicsList::SetTargetCut(G4double cut) {
     if( !TargetCuts ) TargetCuts = new G4ProductionCuts();
 
     TargetCuts->SetProductionCut(cut, idxG4GammaCut);
@@ -476,7 +476,7 @@ void UKALPhysicsList::SetTargetCut(G4double cut) {
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-void UKALPhysicsList::SetDetectorCut(G4double cut) {
+void UKAL_simPhysicsList::SetDetectorCut(G4double cut) {
     if( !DetectorCuts ) DetectorCuts = new G4ProductionCuts();
 
     DetectorCuts->SetProductionCut(cut, idxG4GammaCut);

@@ -24,29 +24,70 @@
 // ********************************************************************
 //
 //
-/// \file B2ActionInitialization.hh
-/// \brief Definition of the B2ActionInitialization class
+/// \file medical/electronScattering2/include/PhysicsList.hh
+/// \brief Definition of the PhysicsList class
 
-#ifndef B2ActionInitialization_h
-#define B2ActionInitialization_h 1
+#ifndef PhysicsList_h
+#define PhysicsList_h 1
 
-#include "G4VUserActionInitialization.hh"
+#include "G4VModularPhysicsList.hh"
+#include "globals.hh"
+#include <vector>
 
-class B4DetectorConstruction;
+class G4VPhysicsConstructor;
+class UKAL_simPhysicsListMessenger;
+class G4ProductionCuts;
 
-/// Action initialization class.
-///
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class B2ActionInitialization : public G4VUserActionInitialization
+class UKAL_simPhysicsList: public G4VModularPhysicsList
 {
-  public:
-    B2ActionInitialization();
-    virtual ~B2ActionInitialization();
+public:
+  UKAL_simPhysicsList();
+  virtual ~UKAL_simPhysicsList();
 
-    virtual void BuildForMaster() const;
-    virtual void Build() const;
+  virtual void ConstructParticle();
+        
+  void AddPhysicsList(const G4String& name);
+    
+  virtual void ConstructProcess();    
+  // void AddDecay();
+  // void AddStepMax();      
+
+  // migrated from e16032 simulation
+  void SetCuts();
+  void SetCutForGamma(G4double);
+  void SetCutForElectron(G4double);
+  void SetCutForPositron(G4double);
+  //
+  void SetTargetCut(G4double val);
+  void SetDetectorCut(G4double val);
+
+private: 
+  void AddExtraBuilders(G4bool flagHP);
+    
+private:
+  
+  UKAL_simPhysicsListMessenger* fMessenger; 
+
+  G4String fEmName;
+  G4VPhysicsConstructor*  fEmPhysicsList;
+  // by Yongchi - for UKAL_sim
+  G4VPhysicsConstructor*  raddecayList;
+  G4VPhysicsConstructor*  particleList;
+  G4VPhysicsConstructor*  hadPhysicsList;
+
+  // migrated from e16032 simulation
+  std::vector<G4VPhysicsConstructor*> hadronPhys; 
+  G4int nhadcomp;
+  G4ProductionCuts* DetectorCuts;
+  G4ProductionCuts* TargetCuts;
+
+  G4double cutForGamma;
+  G4double cutForElectron;
+  G4double cutForPositron;
 };
 
-#endif
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-    
+#endif

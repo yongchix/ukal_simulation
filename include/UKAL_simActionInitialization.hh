@@ -24,70 +24,29 @@
 // ********************************************************************
 //
 //
-/// \file medical/electronScattering2/include/PhysicsList.hh
-/// \brief Definition of the PhysicsList class
+/// \file UKAL_simActionInitialization.hh
+/// \brief Definition of the UKAL_simActionInitialization class
 
-#ifndef PhysicsList_h
-#define PhysicsList_h 1
+#ifndef UKAL_simActionInitialization_h
+#define UKAL_simActionInitialization_h 1
 
-#include "G4VModularPhysicsList.hh"
-#include "globals.hh"
-#include <vector>
+#include "G4VUserActionInitialization.hh"
 
-class G4VPhysicsConstructor;
-class UKALPhysicsListMessenger;
-class G4ProductionCuts;
+class B4DetectorConstruction;
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+/// Action initialization class.
+///
 
-class UKALPhysicsList: public G4VModularPhysicsList
+class UKAL_simActionInitialization : public G4VUserActionInitialization
 {
-public:
-  UKALPhysicsList();
-  virtual ~UKALPhysicsList();
+  public:
+    UKAL_simActionInitialization();
+    virtual ~UKAL_simActionInitialization();
 
-  virtual void ConstructParticle();
-        
-  void AddPhysicsList(const G4String& name);
-    
-  virtual void ConstructProcess();    
-  // void AddDecay();
-  // void AddStepMax();      
-
-  // migrated from e16032 simulation
-  void SetCuts();
-  void SetCutForGamma(G4double);
-  void SetCutForElectron(G4double);
-  void SetCutForPositron(G4double);
-  //
-  void SetTargetCut(G4double val);
-  void SetDetectorCut(G4double val);
-
-private: 
-  void AddExtraBuilders(G4bool flagHP);
-    
-private:
-  
-  UKALPhysicsListMessenger* fMessenger; 
-
-  G4String fEmName;
-  G4VPhysicsConstructor*  fEmPhysicsList;
-  // by Yongchi - for UKAL
-  G4VPhysicsConstructor*  raddecayList;
-  G4VPhysicsConstructor*  particleList;
-  G4VPhysicsConstructor*  hadPhysicsList;
-
-  // migrated from e16032 simulation
-  std::vector<G4VPhysicsConstructor*> hadronPhys; 
-  G4int nhadcomp;
-  G4ProductionCuts* DetectorCuts;
-  G4ProductionCuts* TargetCuts;
-
-  G4double cutForGamma;
-  G4double cutForElectron;
-  G4double cutForPositron;
+    virtual void BuildForMaster() const;
+    virtual void Build() const;
 };
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 #endif
+
+    

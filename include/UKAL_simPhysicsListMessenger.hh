@@ -24,39 +24,37 @@
 // ********************************************************************
 //
 //
-/// \file B2ActionInitialization.cc
-/// \brief Implementation of the B2ActionInitialization class
+/// \file medical/electronScattering2/include/PhysicsListMessenger.hh
+/// \brief Definition of the PhysicsListMessenger class
 
-#include "B2ActionInitialization.hh"
-#include "B2PrimaryGeneratorAction.hh"
-#include "B2RunAction.hh"
-#include "B2EventAction.hh"
+#ifndef PhysicsListMessenger_h
+#define PhysicsListMessenger_h 1
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+#include "G4UImessenger.hh"
+#include "globals.hh"
 
-B2ActionInitialization::B2ActionInitialization()
- : G4VUserActionInitialization()
-{}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-B2ActionInitialization::~B2ActionInitialization()
-{}
+class PhysicsList;
+class G4UIdirectory;
+class G4UIcmdWithAString;
+class UKAL_simPhysicsList; 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2ActionInitialization::BuildForMaster() const
+class UKAL_simPhysicsListMessenger: public G4UImessenger
 {
-  SetUserAction(new B2RunAction);
-}
+  public:
+    UKAL_simPhysicsListMessenger(UKAL_simPhysicsList* );
+    virtual ~UKAL_simPhysicsListMessenger();
+    
+    virtual void SetNewValue(G4UIcommand*, G4String);
+    
+  private:
+    UKAL_simPhysicsList* fPhysicsList;
+    
+    G4UIdirectory*             fPhysDir;    
+    G4UIcmdWithAString*        fPListCmd;    
+};
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2ActionInitialization::Build() const
-{
-  SetUserAction(new B2PrimaryGeneratorAction);
-  SetUserAction(new B2RunAction);
-  SetUserAction(new B2EventAction);
-}  
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+#endif

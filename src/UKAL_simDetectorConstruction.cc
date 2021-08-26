@@ -24,12 +24,12 @@
 // ********************************************************************
 //
 //
-/// \file B2aDetectorConstruction.cc
-/// \brief Implementation of the B2aDetectorConstruction class
+/// \file UKAL_simDetectorConstruction.cc
+/// \brief Implementation of the UKAL_simDetectorConstruction class
  
-#include "B2aDetectorConstruction.hh"
-#include "B2aDetectorMessenger.hh"
-#include "B2TrackerSD.hh"
+#include "UKAL_simDetectorConstruction.hh"
+#include "UKAL_simDetectorMessenger.hh"
+#include "UKAL_simTrackerSD.hh"
 
 #include "G4Material.hh"
 #include "G4NistManager.hh"
@@ -52,15 +52,15 @@
 
 #include "G4SystemOfUnits.hh"
 
-#include "UKALMaterial.hh"
+#include "UKAL_simMaterial.hh"
 
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
  
 G4ThreadLocal 
-G4GlobalMagFieldMessenger* B2aDetectorConstruction::fMagFieldMessenger = 0;
+G4GlobalMagFieldMessenger* UKAL_simDetectorConstruction::fMagFieldMessenger = 0;
 
-B2aDetectorConstruction::B2aDetectorConstruction()
+UKAL_simDetectorConstruction::UKAL_simDetectorConstruction()
 	:G4VUserDetectorConstruction(), 
 	 fNbOfChambers(0),
 	 fLogicTarget(NULL), fLogicChamber(NULL), 
@@ -69,7 +69,7 @@ B2aDetectorConstruction::B2aDetectorConstruction()
 	 fCheckOverlaps(true),
 	 hpgePhi(180*degree), hpgePosRadius(10*mm)
 {
-	fMessenger = new B2aDetectorMessenger(this);
+	fMessenger = new UKAL_simDetectorMessenger(this);
 
 	fNbOfChambers = 5;
 	fLogicChamber = new G4LogicalVolume*[fNbOfChambers];
@@ -77,7 +77,7 @@ B2aDetectorConstruction::B2aDetectorConstruction()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
  
-B2aDetectorConstruction::~B2aDetectorConstruction()
+UKAL_simDetectorConstruction::~UKAL_simDetectorConstruction()
 {
 	// delete [] fLogicChamber; 
 	delete fStepLimit;
@@ -86,7 +86,7 @@ B2aDetectorConstruction::~B2aDetectorConstruction()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
  
-G4VPhysicalVolume* B2aDetectorConstruction::Construct()
+G4VPhysicalVolume* UKAL_simDetectorConstruction::Construct()
 {
 	// Define materials
 	DefineMaterials();
@@ -97,11 +97,11 @@ G4VPhysicalVolume* B2aDetectorConstruction::Construct()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2aDetectorConstruction::DefineMaterials()
+void UKAL_simDetectorConstruction::DefineMaterials()
 {
 	// Material definition 
 	// by Yongchi 
-	managerUKALMaterial = new UKALMaterial(); 
+	managerUKAL_simMaterial = new UKAL_simMaterial(); 
 
 	G4NistManager* nistManager = G4NistManager::Instance();
 
@@ -114,9 +114,9 @@ void B2aDetectorConstruction::DefineMaterials()
 	// Xenon gas defined using NIST Manager
 	fChamberMaterial = nistManager->FindOrBuildMaterial("G4_Xe");
 
-	// by Yongchi - for UKAL
-    sampleMater = managerUKALMaterial->GetMaterial("XeF2"); 
-    hpgeMater   = managerUKALMaterial->GetMaterial("Ge");
+	// by Yongchi - for UKAL_sim
+    sampleMater = managerUKAL_simMaterial->GetMaterial("XeF2"); 
+    hpgeMater   = managerUKAL_simMaterial->GetMaterial("Ge");
 
 	// Print materials
 	G4cout << *(G4Material::GetMaterialTable()) << G4endl;
@@ -124,7 +124,7 @@ void B2aDetectorConstruction::DefineMaterials()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
+G4VPhysicalVolume* UKAL_simDetectorConstruction::DefineVolumes()
 {
 	G4Material* air  = G4Material::GetMaterial("G4_AIR");
 
@@ -220,29 +220,29 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
 	// 				  fCheckOverlaps); // checking overlaps 
 
 
-	// for UKAL
+	// for UKAL_sim
 	// --------- Scattering Sample ---------
 	G4double sampleRadius = 9*mm; 
 	G4double sampleDz     = 21*mm; 
 	// solid
-	solidUKALSample = new G4Tubs("solidUKALSample", 0, sampleRadius, sampleDz, 0, 360*degree); 
+	solidUKAL_simSample = new G4Tubs("solidUKAL_simSample", 0, sampleRadius, sampleDz, 0, 360*degree); 
 	// logical 
-	logicUKALSample = new G4LogicalVolume(solidUKALSample, 
+	logicUKAL_simSample = new G4LogicalVolume(solidUKAL_simSample, 
 										  sampleMater, 
 										  //hpgeMater,  
 										  //fTargetMaterial,
 										  //fChamberMaterial,  
-										  "logicUKALSample"); 
+										  "logicUKAL_simSample"); 
 	// physical
 	// placement, see below CeBr3 for refernece, use a G4ThreeVector for xyz position as a whole
-	fUKALSample_zpos = -0.5*sampleDz; 
-	fUKALSamplePos = G4ThreeVector(0, 0); 
-	G4RotationMatrix *rotateUKALSample = new G4RotationMatrix(); 
-	rotateUKALSample->rotateX(90.*degree); 
-	if(fUseUKALSample) {
-		physiUKALSample = new G4PVPlacement(rotateUKALSample, 
-											fUKALSamplePos, 
-											logicUKALSample, "UKALSample", 
+	fUKAL_simSample_zpos = -0.5*sampleDz; 
+	fUKAL_simSamplePos = G4ThreeVector(0, 0); 
+	G4RotationMatrix *rotateUKAL_simSample = new G4RotationMatrix(); 
+	rotateUKAL_simSample->rotateX(90.*degree); 
+	if(fUseUKAL_simSample) {
+		physiUKAL_simSample = new G4PVPlacement(rotateUKAL_simSample, 
+											fUKAL_simSamplePos, 
+											logicUKAL_simSample, "UKAL_simSample", 
 											worldLV, 
 											false, 0, true); 
 	}
@@ -251,19 +251,19 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
 	G4double hpgeRadius = 31.5*mm; // 31.5mm
 	G4double hpgeDz     = 80*mm; 
 	// solid
-	solidUKALHPGe = new G4Tubs("solidUKALHPGe", 0, hpgeRadius, hpgeDz, 0, 360*degree); 
+	solidUKAL_simHPGe = new G4Tubs("solidUKAL_simHPGe", 0, hpgeRadius, hpgeDz, 0, 360*degree); 
 	// logical
-	logicUKALHPGe = new G4LogicalVolume(solidUKALHPGe, 
+	logicUKAL_simHPGe = new G4LogicalVolume(solidUKAL_simHPGe, 
 										hpgeMater, 
-										"logicUKALHPGe"); 
+										"logicUKAL_simHPGe"); 
 	// physical - placement
-	// fUKALHPGe_zpos = 0.5*hpgeDz; 
-	if(fUseUKALHPGe) {
-		fUKALHPGePos = G4ThreeVector(hpgePosRadius*sin(hpgePhi), 0, hpgePosRadius*cos(hpgePhi)); //-1*fUKALHPGe_zpos - 60*mm, 0, 0); 
-		G4RotationMatrix *rotateUKALHPGe = new G4RotationMatrix(); 
-		rotateUKALHPGe->rotateY(180*degree-hpgePhi); 	
+	// fUKAL_simHPGe_zpos = 0.5*hpgeDz; 
+	if(fUseUKAL_simHPGe) {
+		fUKAL_simHPGePos = G4ThreeVector(hpgePosRadius*sin(hpgePhi), 0, hpgePosRadius*cos(hpgePhi)); //-1*fUKAL_simHPGe_zpos - 60*mm, 0, 0); 
+		G4RotationMatrix *rotateUKAL_simHPGe = new G4RotationMatrix(); 
+		rotateUKAL_simHPGe->rotateY(180*degree-hpgePhi); 	
 
-		physiUKALHPGe = new G4PVPlacement(rotateUKALHPGe, fUKALHPGePos, logicUKALHPGe, "UKALHPGe", 
+		physiUKAL_simHPGe = new G4PVPlacement(rotateUKAL_simHPGe, fUKAL_simHPGePos, logicUKAL_simHPGe, "UKAL_simHPGe", 
 										  worldLV, 
 										  false, 0, true); 
 	}
@@ -306,7 +306,7 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
 	// if( fNbOfChambers > 0 ){
 	// 	rmaxIncr =  0.5 * (lastLength-firstLength)/(fNbOfChambers-1);
 	// 	if (chamberSpacing  < chamberWidth) {
-	// 		G4Exception("B2aDetectorConstruction::DefineVolumes()",
+	// 		G4Exception("UKAL_simDetectorConstruction::DefineVolumes()",
 	// 					"InvalidSetup", FatalException,
 	// 					"Width>Spacing");
 	// 	}
@@ -364,12 +364,12 @@ G4VPhysicalVolume* B2aDetectorConstruction::DefineVolumes()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
  
-void B2aDetectorConstruction::ConstructSDandField()
+void UKAL_simDetectorConstruction::ConstructSDandField()
 {
 	// Sensitive detectors
 
 	// G4String trackerChamberSDname = "B2/TrackerChamberSD";
-	// B2TrackerSD* aTrackerSD = new B2TrackerSD(trackerChamberSDname,
+	// UKAL_simTrackerSD* aTrackerSD = new UKAL_simTrackerSD(trackerChamberSDname,
 	// 										  "TrackerHitsCollection");
 	// G4SDManager::GetSDMpointer()->AddNewDetector(aTrackerSD);
 	// // Setting aTrackerSD to all logical volumes with the same name 
@@ -379,15 +379,15 @@ void B2aDetectorConstruction::ConstructSDandField()
 
 	// by Yongchi - do the same thing as above for 
 	// scattering samples and hpge detectors
-	G4String ukalSampleSDname = "UKAL/ScatteringSampleSD"; 
-	B2TrackerSD* aSampleSD = new B2TrackerSD(ukalSampleSDname, "ukalSampleHitsCollection"); 
+	G4String ukalSampleSDname = "UKAL_sim/ScatteringSampleSD"; 
+	UKAL_simTrackerSD* aSampleSD = new UKAL_simTrackerSD(ukalSampleSDname, "ukalSampleHitsCollection"); 
 	G4SDManager::GetSDMpointer()->AddNewDetector(aSampleSD); 
-	SetSensitiveDetector("logicUKALSample", aSampleSD, true); 
+	SetSensitiveDetector("logicUKAL_simSample", aSampleSD, true); 
 	// 
-	G4String ukalHPGeSDname = "UKAL/HPGeSD"; 
-	B2TrackerSD* aHPGeSD = new B2TrackerSD(ukalHPGeSDname, "ukalHPGeHitsCollection"); 
+	G4String ukalHPGeSDname = "UKAL_sim/HPGeSD"; 
+	UKAL_simTrackerSD* aHPGeSD = new UKAL_simTrackerSD(ukalHPGeSDname, "ukalHPGeHitsCollection"); 
 	G4SDManager::GetSDMpointer()->AddNewDetector(aHPGeSD); 
-	SetSensitiveDetector("logicUKALHPGe", aHPGeSD, true); 			
+	SetSensitiveDetector("logicUKAL_simHPGe", aHPGeSD, true); 			
 
 
 
@@ -408,7 +408,7 @@ void B2aDetectorConstruction::ConstructSDandField()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
  
-// void B2aDetectorConstruction::SetTargetMaterial(G4String materialName)
+// void UKAL_simDetectorConstruction::SetTargetMaterial(G4String materialName)
 // {
 // 	G4NistManager* nistManager = G4NistManager::Instance();
 
@@ -433,7 +433,7 @@ void B2aDetectorConstruction::ConstructSDandField()
  
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-// void B2aDetectorConstruction::SetChamberMaterial(G4String materialName)
+// void UKAL_simDetectorConstruction::SetChamberMaterial(G4String materialName)
 // {
 // 	G4NistManager* nistManager = G4NistManager::Instance();
 
@@ -461,14 +461,14 @@ void B2aDetectorConstruction::ConstructSDandField()
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2aDetectorConstruction::SetMaxStep(G4double maxStep)
+void UKAL_simDetectorConstruction::SetMaxStep(G4double maxStep)
 {
 	if ((fStepLimit)&&(maxStep>0.)) fStepLimit->SetMaxAllowedStep(maxStep);
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void B2aDetectorConstruction::SetCheckOverlaps(G4bool checkOverlaps)
+void UKAL_simDetectorConstruction::SetCheckOverlaps(G4bool checkOverlaps)
 {
 	fCheckOverlaps = checkOverlaps;
 }  

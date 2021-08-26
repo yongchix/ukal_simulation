@@ -24,45 +24,33 @@
 // ********************************************************************
 //
 //
-/// \file medical/electronScattering2/src/PhysicsListMessenger.cc
-/// \brief Implementation of the PhysicsListMessenger class
+/// \file UKAL_simEventAction.hh
+/// \brief Definition of the UKAL_simEventAction class
 
-#include "G4UIdirectory.hh"
-#include "G4UIcmdWithAString.hh"
+#ifndef UKAL_simEventAction_h
+#define UKAL_simEventAction_h 1
 
-#include "UKALPhysicsListMessenger.hh"
-#include "UKALPhysicsList.hh"
+#include "G4UserEventAction.hh"
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+#include "globals.hh"
 
-UKALPhysicsListMessenger::UKALPhysicsListMessenger(UKALPhysicsList* pPhys)
-: G4UImessenger(), fPhysicsList(pPhys),
-  fPListCmd(0)
+#include "TF1.h"
+
+/// Event action class
+
+class UKAL_simEventAction : public G4UserEventAction
 {
-    fPhysDir = new G4UIdirectory("/UKAL_sim/phys/");
-    fPhysDir->SetGuidance("physics list commands");
-    
-    fPListCmd = new G4UIcmdWithAString("/UKAL_sim/phys/addPhysics",this);
-    fPListCmd->SetGuidance("Add modula physics list.");
-    fPListCmd->SetParameterName("PList",false);
-    fPListCmd->AvailableForStates(G4State_PreInit);
-    fPListCmd->SetToBeBroadcasted(false);
-}
+  public:
+    UKAL_simEventAction();
+    virtual ~UKAL_simEventAction();
+
+    virtual void  BeginOfEventAction(const G4Event* );
+    virtual void    EndOfEventAction(const G4Event* );
+
+  private: 
+    TF1 *f1Res; 
+};
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-UKALPhysicsListMessenger::~UKALPhysicsListMessenger()
-{
-    delete fPListCmd;
-    delete fPhysDir;
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void UKALPhysicsListMessenger::SetNewValue(G4UIcommand* command, G4String newValue)
-{
-    if( command == fPListCmd )
-    { fPhysicsList->AddPhysicsList(newValue);}
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+#endif
